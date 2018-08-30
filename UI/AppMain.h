@@ -5,6 +5,7 @@
 #include <gtkmm/window.h>
 #include <string>
 #include "Boxes/DebugBox.h"
+#include "Views/ClockView.h"
 
 using namespace std;
 
@@ -23,6 +24,9 @@ public:
 
 protected:
     virtual void on_startup() override;
+
+    //Views
+    ClockView *clockView;
 };
 
 

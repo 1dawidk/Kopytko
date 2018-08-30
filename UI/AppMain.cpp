@@ -21,8 +21,8 @@ void AppMain::on_startup() {
     b= new Gtk::Box(Gtk::Orientation::ORIENTATION_VERTICAL);
 
     //Prepare initial main box layout
-    debugBox= new DebugBox();
-    b->pack_start(*debugBox, false, true, 0);
+    clockView= new ClockView();
+    b->pack_start(*clockView, false, true, 0);
 
     w->maximize();
     w->fullscreen();
