@@ -14,14 +14,13 @@ endif()
 find_package( Threads REQUIRED)
 find_package(dlib REQUIRED)
 find_package(PkgConfig)
-find_package( OpenCV REQUIRED )
 pkg_check_modules(GTKMM gtkmm-3.0)
 
 include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
 add_executable(Kopytko main.cpp UI/AppMain.cpp UI/AppMain.h UI/Boxes/DebugBox.cpp UI/Boxes/DebugBox.h UI/Views/ClockView.cpp UI/Views/ClockView.h UI/Views/Header.cpp UI/Views/Header.h Misc/bcm2835.h Misc/Clock.cpp Misc/Clock.h Misc/Thread.cpp Misc/Thread.h HWDrivers/Camera.cpp HWDrivers/Camera.h AI/FaceRecognizer.cpp AI/FaceRecognizer.h)
-target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib ${OpenCV_LIBS})
+target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib)
 
 if(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
     target_link_libraries(Kopytko ${bluetooth_lib} ${raspicam_LIBS})
