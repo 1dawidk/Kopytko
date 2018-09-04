@@ -14,7 +14,7 @@ Camera::~Camera() {
     delete cam_h;
 }
 
-void Camera::Init(unsigned int resX, unsigned int resY) {
+void Camera::init(unsigned int resX, unsigned int resY) {
     cam_h->setWidth ( resX );
     cam_h->setHeight ( resY );
     this->resX= resX;
@@ -38,18 +38,18 @@ void Camera::Init(unsigned int resX, unsigned int resY) {
     sleep(3);
 }
 
-int Camera::GetImage(uint8_t *buf) {
+int Camera::getImage(uint8_t *buf) {
     cam_h->grab();
     cam_h->retrieve(buf);
 
     return 1;
 }
 
-uint8_t *Camera::CreateBuf() {
+uint8_t *Camera::createBuf() {
     return new uint8_t[cam_h->getImageBufferSize()];
 }
 
-int Camera::GetReqBufLen() {
+int Camera::getReqBufLen() {
     return cam_h->getImageBufferSize();
 }
 
