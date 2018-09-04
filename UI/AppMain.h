@@ -19,6 +19,7 @@ private:
 
 public:
     AppMain(string title);
+    ~AppMain();
     Gtk::Window* getMainWindow();
     static Glib::RefPtr<AppMain> create(string title);
 

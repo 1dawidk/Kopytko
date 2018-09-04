@@ -13,11 +13,12 @@ using namespace std;
 class ClockView : public Gtk::Label, Thread {
 public:
     ClockView();
+    ~ClockView();
 
 private:
-    void Run() override;
+    void run() override;
 
-    void Stop() override;
+    void stop() override;
 };
 
 

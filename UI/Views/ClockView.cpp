@@ -3,13 +3,22 @@
 ClockView::ClockView() {
     this->override_font(*(new Pango::FontDescription("sans bold 28")));
     this->set_max_width_chars(50);
-    this->Start();
+    this->set_text("00:00");
+    this->start();
 }
 
-void ClockView::Run() {
+ClockView::~ClockView() {
+    this->stop();
+}
+
+void ClockView::run() {
     int lastTime=0;
     char timeText[10];
 
+    lastTime= Clock::GetDayMinutes();
+    sprintf(timeText, "%02d : %02d", lastTime/60, lastTime%60);
+    this->set_text(timeText);
+    runThread=true;
 
     while(runThread){
         if(Clock::GetDayMinutes()!=lastTime){
@@ -18,10 +27,8 @@ void ClockView::Run() {
             this->set_text(timeText);
         }
     }
-
-
 }
 
-void ClockView::Stop() {
-
+void ClockView::stop() {
+    runThread= false;
 }

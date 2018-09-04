@@ -7,6 +7,11 @@ AppMain::AppMain(string title) : Gtk::Application("pl.dawidkulpa.surviveworldcre
     w->set_title(title);
 }
 
+AppMain::~AppMain() {
+    delete w;
+    delete clockView;
+}
+
 Glib::RefPtr<AppMain> AppMain::create(string title) {
     return Glib::RefPtr<AppMain>(new AppMain(title));
 }
