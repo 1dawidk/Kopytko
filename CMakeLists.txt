@@ -3,18 +3,18 @@ project(Kopytko)
 
 set(CMAKE_CXX_STANDARD 11)
 
-remove_definitions(-DDLIB_NO_GUI_SUPPORT)
-
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
     add_definitions(-DDEBUG1)
 else()
+    set(CMAKE_CXX_FLAGS "-mfpu=neon")
     find_package(raspicam REQUIRED)
     find_library(bluetooth_lib bluetooth REQUIRED)
     MESSAGE( STATUS "bluetooth Library: " ${bluetooth_lib} )
 endif()
 
+add_subdirectory(./dlib dlib_build)
+
 find_package( Threads REQUIRED)
-find_package(dlib REQUIRED)
 find_package(PkgConfig)
 find_package(OpenCV REQUIRED)
 pkg_check_modules(GTKMM gtkmm-2.4)
