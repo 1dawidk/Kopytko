@@ -10,7 +10,7 @@ void FaceRecognizer::run() {
 
     //Init camera
     camera= new Camera();
-    //camera->init(1024, 1024);
+    camera->init(1024, 1024);
 
     //Init dlib face detector
     face_detector= dlib::get_frontal_face_detector();
