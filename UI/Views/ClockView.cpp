@@ -1,7 +1,7 @@
 #include "ClockView.h"
 
 ClockView::ClockView() {
-    this->override_font(*(new Pango::FontDescription("sans bold 28")));
+    this->modify_font(*(new Pango::FontDescription("sans bold 28")));
     this->set_max_width_chars(50);
     this->set_text("00:00");
     this->start();

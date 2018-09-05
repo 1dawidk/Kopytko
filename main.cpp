@@ -7,24 +7,12 @@
 
 int main(int argc, char *argv[]) {
 
-    //CAMERA TEST!!!!!
-    //Camera camera;
+    Gtk::Main kit(argc, argv);
 
-    //camera.init(1024, 1024);
-    //uint8_t *buff= camera.createBuf();
-    //camera.getImage(buff);
-    //!!!!!!!!!!!!!!!!
+    AppMainWindow appMainWindow;
+    appMainWindow.init();
 
-    FaceRecognizer faceRecognizer;
-    faceRecognizer.start();
-
-    //Gtk::Main kit(argc, argv);
-
-    //AppMainWindow appMainWindow;
-    //appMainWindow.init();
-
-    //Gtk::Main::run(appMainWindow);
-    while(1);
+    Gtk::Main::run(appMainWindow);
 
     return 0;
 }
