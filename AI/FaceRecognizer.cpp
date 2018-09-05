@@ -1,5 +1,9 @@
 #include "FaceRecognizer.h"
 
+FaceRecognizer::FaceRecognizer(AppMainWindow *context){
+    this->context= context;
+}
+
 void FaceRecognizer::stop() {
     runThread= false;
 }
@@ -23,18 +27,11 @@ void FaceRecognizer::run() {
         std::cout << "Preparing image..." << endl;
         dlib::cv_image<dlib::bgr_pixel> img(imgBuff);
         std::cout << "Done" << endl;
+        context->showImage(imgBuff);
         std::cout << "Looking for faces..." << endl;
         std::vector<dlib::rectangle> faces=face_detector(img);
         //###################
 
         std::cout << faces.size() << " faces detected" << endl;
     }
-}
-
-void FaceRecognizer::detectFace(uint8_t *buf) {
-    //dlib::cv_image<dlib::bgr_pixel> cimg(*buf);
-
-    //std::vector<dlib::rectangle> faces;
-    //faces= face_detector(cimg);
-    //cout << faces.size() << endl;
 }
