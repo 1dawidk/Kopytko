@@ -16,9 +16,14 @@ void FaceRecognizer::run() {
     face_detector= dlib::get_frontal_face_detector();
     while (runThread){
         //TEST FACE DETECTION
+        std::cout << "Capturing image..." << endl;
         camera->getImage(&imgBuff);
+        std::cout << "Done" << endl;
         //cv::imwrite("../../test.jpg", imgBuff);
+        std::cout << "Preparing image..." << endl;
         dlib::cv_image<dlib::bgr_pixel> img(imgBuff);
+        std::cout << "Done" << endl;
+        std::cout << "Looking for faces..." << endl;
         std::vector<dlib::rectangle> faces=face_detector(img);
         //###################
 
