@@ -23,7 +23,6 @@ void Camera::init(unsigned int resX, unsigned int resY) {
     cam_h->set(CV_CAP_PROP_SHARPNESS, 0);
     cam_h->set(CV_CAP_PROP_CONTRAST, 0);
     cam_h->set(CV_CAP_PROP_SATURATION, 0);
-    cam_h->set(CV_CAP_PROP_ROLL, 180);
 
     cam_h->open();
     sleep(3);
