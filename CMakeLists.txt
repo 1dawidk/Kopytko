@@ -3,6 +3,8 @@ project(Kopytko)
 
 set(CMAKE_CXX_STANDARD 11)
 
+remove_definitions(-DDLIB_NO_GUI_SUPPORT)
+
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
     add_definitions(-DDEBUG1)
 else()
@@ -14,13 +16,14 @@ endif()
 find_package( Threads REQUIRED)
 find_package(dlib REQUIRED)
 find_package(PkgConfig)
-pkg_check_modules(GTKMM gtkmm-3.0)
+find_package(OpenCV REQUIRED)
+pkg_check_modules(GTKMM gtkmm-2.4)
 
 include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
-add_executable(Kopytko main.cpp UI/AppMain.cpp UI/AppMain.h UI/Boxes/DebugBox.cpp UI/Boxes/DebugBox.h UI/Views/ClockView.cpp UI/Views/ClockView.h UI/Views/Header.cpp UI/Views/Header.h Misc/bcm2835.h Misc/Clock.cpp Misc/Clock.h Misc/Thread.cpp Misc/Thread.h HWDrivers/Camera.cpp HWDrivers/Camera.h AI/FaceRecognizer.cpp AI/FaceRecognizer.h)
-target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib)
+add_executable(Kopytko main.cpp UI/Views/Header.cpp UI/Views/Header.h Misc/bcm2835.h Misc/Clock.cpp Misc/Clock.h Misc/Thread.cpp Misc/Thread.h HWDrivers/Camera.cpp HWDrivers/Camera.h AI/FaceRecognizer.cpp AI/FaceRecognizer.h UI/AppMainWindow.cpp UI/AppMainWindow.h)
+target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib ${OpenCV_LIBS})
 
 if(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
     target_link_libraries(Kopytko ${bluetooth_lib} ${raspicam_LIBS})

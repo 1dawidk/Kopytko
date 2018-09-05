@@ -9,6 +9,8 @@
 
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/opencv.h>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/core/core.hpp>
 
 //REQUIRED: dlib, libblas, liblapack, libsqlite-3
 
@@ -24,7 +26,6 @@ protected:
 private:
     Camera *camera;
 
-    void takePhoto(uint8_t *buf); //Get camera image to camera buffer
     void detectFace(uint8_t *buf); //Try to recognize face from camera buffer
 };
 

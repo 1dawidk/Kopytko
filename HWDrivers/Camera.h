@@ -2,24 +2,14 @@
 #define MORTFIRMWARE_CAMERA_H
 
 #include <raspicam/raspicam.h>
+#include <raspicam/raspicam_cv.h>
 
 #ifdef DEBUG1
 
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <linux/ioctl.h>
-#include <linux/types.h>
-#include <linux/v4l2-common.h>
-#include <linux/v4l2-controls.h>
-#include <linux/videodev2.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/mman.h>
-#include <string.h>
-#include <fstream>
-#include <string>
+#include <highgui.h>
 
 #endif
 
@@ -31,21 +21,14 @@ public:
     ~Camera();
     void init(unsigned int resX, unsigned int resY);
 
-    int getImage(uint8_t *buf);
-    uint8_t* createBuf();
-    int getReqBufLen();
-
-    unsigned int getResY();
-    unsigned int getResX();
+    int getImage(cv::Mat *buf);
 
 private:
     unsigned int resY;
     unsigned int resX;
 
 #ifndef DEBUG1
-    RaspiCam *cam_h;
-#else
-    int fd;
+    RaspiCam_Cv *cam_h;
 #endif
 };
 

@@ -1,10 +1,11 @@
 #include <iostream>
-#include "UI/AppMain.h"
 #include "HWDrivers/Camera.h"
 #include "AI/FaceRecognizer.h"
+#include <gtkmm.h>
+#include "UI/AppMainWindow.h"
 
 
-int main() {
+int main(int argc, char *argv[]) {
 
     //CAMERA TEST!!!!!
     //Camera camera;
@@ -17,8 +18,13 @@ int main() {
     FaceRecognizer faceRecognizer;
     faceRecognizer.start();
 
+    //Gtk::Main kit(argc, argv);
 
-    auto app= AppMain::create("Kopytko");
+    //AppMainWindow appMainWindow;
+    //appMainWindow.init();
 
-    return app->run(*app->getMainWindow());
+    //Gtk::Main::run(appMainWindow);
+    while(1);
+
+    return 0;
 }

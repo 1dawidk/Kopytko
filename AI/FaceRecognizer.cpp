@@ -5,27 +5,25 @@ void FaceRecognizer::stop() {
 }
 
 void FaceRecognizer::run() {
-    //cv::Mat imgBuff;
+    cv::Mat imgBuff;
     runThread= true;
 
     //Init camera
-    //camera= new Camera();
+    camera= new Camera();
     //camera->init(1024, 1024);
 
     //Init dlib face detector
-    //face_detector= dlib::get_frontal_face_detector();
-
-    //TEST FACE DETECTION
-    //takePhoto(&imgBuff);
-    //detectFace(&imgBuff);
-    //###################
-
+    face_detector= dlib::get_frontal_face_detector();
     while (runThread){
+        //TEST FACE DETECTION
+        camera->getImage(&imgBuff);
+        //cv::imwrite("../../test.jpg", imgBuff);
+        dlib::cv_image<dlib::bgr_pixel> img(imgBuff);
+        std::vector<dlib::rectangle> faces=face_detector(img);
+        //###################
 
+        std::cout << faces.size() << " faces detected" << endl;
     }
-}
-
-void FaceRecognizer::takePhoto(uint8_t *buf) {
 }
 
 void FaceRecognizer::detectFace(uint8_t *buf) {
