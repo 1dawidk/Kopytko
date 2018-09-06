@@ -29,8 +29,6 @@ protected:
 private:
     Camera *camera;
     AppMainWindow *context;
-
-    void detectFace(uint8_t *buf); //Try to recognize face from camera buffer
 };
 
 

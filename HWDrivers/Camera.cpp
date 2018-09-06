@@ -3,7 +3,6 @@
 #include "Camera.h"
 
 #ifndef DEBUG1
-
 Camera::Camera() {
     cam_h= new RaspiCam_Cv();
 }
@@ -16,6 +15,8 @@ Camera::~Camera() {
 void Camera::init(unsigned int resX, unsigned int resY) {
     cam_h->set(CV_CAP_PROP_FRAME_WIDTH, resX);
     cam_h->set(CV_CAP_PROP_FRAME_HEIGHT, resY);
+    cam_h->set(CV_CAP_PROP_ROLL, 180);
+
     this->resX= resX;
     this->resY= resY;
 
@@ -48,13 +49,7 @@ int Camera::getImage(cv::Mat *buf) {
     cv::VideoCapture capture(0);
     capture.set(CV_CAP_PROP_FRAME_HEIGHT, 1024);
     capture.set(CV_CAP_PROP_FRAME_WIDTH, 1024);
-
-    std::cout << "Capturing image..." << std::endl;
-    if(!capture.read(*buf)){
-        std::cout << "Unable to capture image" << std::endl;
-    } else {
-        std::cout << "Image captured" << std::endl;
-    }
+    capture.read(*buf);
 }
 
 #endif
