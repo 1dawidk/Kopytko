@@ -19,11 +19,6 @@ void Camera::init(unsigned int resX, unsigned int resY) {
     this->resX= resX;
     this->resY= resY;
 
-    cam_h->set(CV_CAP_PROP_BRIGHTNESS, 50);
-    cam_h->set(CV_CAP_PROP_SHARPNESS, 0);
-    cam_h->set(CV_CAP_PROP_CONTRAST, 0);
-    cam_h->set(CV_CAP_PROP_SATURATION, 0);
-
     cam_h->open();
     sleep(3);
 }
