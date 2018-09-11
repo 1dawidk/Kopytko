@@ -6,6 +6,7 @@
 #include <gtkmm/image.h>
 #include <UI/Views/ClockView.h>
 #include <opencv2/core/core.hpp>
+#include <cv.h>
 
 class FaceRecognizer; //#include "AI/FaceRecognizer.h"
 

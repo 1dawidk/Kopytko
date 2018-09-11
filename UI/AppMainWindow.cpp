@@ -1,4 +1,3 @@
-#include <cv.h>
 #include "AppMainWindow.h"
 #include "AI/FaceRecognizer.h"
 
@@ -28,9 +27,10 @@ void AppMainWindow::init() {
 
 void AppMainWindow::showImage(cv::Mat img){
     cv::Mat rgbImg;
-    cv::cvtColor(img, rgbImg, cv::COLOR_BGR2RGB);
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_data(rgbImg.data, Gdk::COLORSPACE_RGB, false, 8,
-                                                                     rgbImg.cols, rgbImg.rows, rgbImg.step);
+    cv::cvtColor(img, img, cv::COLOR_BGR2RGB);
+
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_data(img.data, Gdk::COLORSPACE_RGB, false, 8,
+                                                                     img.cols, img.rows, img.step);
     imageView->set(pixbuf);
 }
 
