@@ -12,6 +12,7 @@ void AppMainWindow::init() {
     clockView= new ClockView();
     imageView= new Gtk::Image();
     box->pack_start(*clockView, Gtk::PACK_SHRINK);
+    box->pack_start(nameLabel);
     box->pack_start(*imageView);
 
     box->show_all_children(true);
@@ -30,4 +31,8 @@ void AppMainWindow::showImage(cv::Mat img){
     cv::cvtColor(img, rgbImg, CV_BGR2RGB);
     Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_data(rgbImg.data, Gdk::COLORSPACE_RGB ,false, 8, rgbImg.cols, rgbImg.rows, rgbImg.step);
     imageView->set(pixbuf);
+}
+
+void AppMainWindow::onFaceDetected(int id){
+    nameLabel.set_text("Hello Dawid :)");
 }

@@ -12,7 +12,9 @@ class FaceRecognizer; //#include "AI/FaceRecognizer.h"
 class AppMainWindow : public Gtk::Window{
 public:
     void init();
+
     void showImage(cv::Mat img);
+    void onFaceDetected(int id);
 
 private:
     Gtk::Box *box;
@@ -20,6 +22,7 @@ private:
     //Views
     ClockView *clockView;
     Gtk::Image *imageView;
+    Gtk::Label nameLabel;
 
     //Other
     FaceRecognizer *faceRecognizer;

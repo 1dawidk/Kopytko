@@ -24,6 +24,8 @@ void FaceRecognizer::run() {
         dlib::cv_image<dlib::bgr_pixel> img(imgBuff); //
         context->showImage(imgBuff);
         std::vector<dlib::rectangle> faces=face_detector(img);
+        if(faces.size()>0)
+            context->onFaceDetected(0);
         //###################
 
         std::cout << faces.size() << " faces detected" << endl;
