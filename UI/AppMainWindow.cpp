@@ -27,15 +27,11 @@ void AppMainWindow::init() {
 }
 
 void AppMainWindow::showImage(cv::Mat img){
-    try {
-        cv::Mat rgbImg;
-        cv::cvtColor(img, rgbImg, CV_BGR2RGB);
-        Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_data(rgbImg.data, Gdk::COLORSPACE_RGB, false, 8,
-                                                                         img.cols, img.rows, img.step);
-        imageView->set(pixbuf);
-    } catch (const std::exception &e){
-        std::cout << e.what() << std::endl;
-    }
+    cv::Mat rgbImg;
+    cv::cvtColor(img, rgbImg, cv::COLOR_BGR2RGB);
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_data(rgbImg.data, Gdk::COLORSPACE_RGB, false, 8,
+                                                                     rgbImg.cols, rgbImg.rows, rgbImg.step);
+    imageView->set(pixbuf);
 }
 
 void AppMainWindow::onFaceDetected(int id){
