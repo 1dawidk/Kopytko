@@ -25,10 +25,20 @@ void FaceRecognizer::run() {
         //TEST FACE DETECTION
         camera->getImage(&imgBuff); //Get camera image
         dlib::cv_image<dlib::bgr_pixel> img(imgBuff);
-        context->showImage(imgBuff);
+
         std::vector<dlib::rectangle> faces=face_detector(img);
-        if(faces.size()>0)
+        if(!faces.empty()) {
+            cv::Rect faceRect;
+            faceRect.x= (int)faces[0].left();
+            faceRect.y= (int)faces[0].top();
+            faceRect.height= (int)(faces[0].right()-faces[0].left());
+            faceRect.width= (int)(faces[0].bottom()-faces[0].top());
             context->onFaceDetected(0);
+            cv::rectangle(imgBuff, faceRect, cvScalar(255, 0, 0), 2);
+
+        }
+
+        context->showImage(imgBuff);
         //###################
     }
 }
