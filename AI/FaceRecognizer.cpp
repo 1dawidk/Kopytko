@@ -52,9 +52,9 @@ void FaceRecognizer::run() {
     //Init dlib face detector
     dlib::frontal_face_detector face_detector= dlib::get_frontal_face_detector();
     dlib::shape_predictor sp;
-    //dlib::deserialize("shape_predictor_5_face_landmarks.dat") >> sp;
+    dlib::deserialize("../AI/data/shape_predictor_5_face_landmarks.dat") >> sp;
     anet_type net;
-    //dlib::deserialize("dlib_face_recognition_resnet_model_v1.dat") >> net;
+    dlib::deserialize("../AI/data/dlib_face_recognition_resnet_model_v1.dat") >> net;
 
 
 
@@ -73,18 +73,18 @@ void FaceRecognizer::run() {
 
         //Extract each face as 150x150px image
         for(int i=0; i<faces.size(); i++){
-            //auto shape= sp(img, faces[i]);
-            //dlib::matrix<dlib::rgb_pixel> face_chip;
+            auto shape= sp(img, faces[i]);
+            dlib::matrix<dlib::rgb_pixel> face_chip;
 
-            //dlib::extract_image_chip(img, dlib::get_face_chip_details(shape, 150, 0.25), face_chip);
-            //faceImgs.push_back(face_chip);
+            dlib::extract_image_chip(img, dlib::get_face_chip_details(shape, 150, 0.25), face_chip);
+            faceImgs.push_back(face_chip);
         }
 
         // This call asks the DNN to convert each face image in faces into a 128D vector.
         // In this 128D vector space, images from the same person will be close to each other
         // but vectors from different people will be far apart.  So we can use these vectors to
         // identify if a pair of images are from the same person or from different people.
-        ///std::vector<dlib::matrix<float,0,1>> face_descriptors= net(faceImgs);
+        std::vector<dlib::matrix<float,0,1>> face_descriptors= net(faceImgs);
 
 
         if(!faces.empty()) {
