@@ -35,5 +35,9 @@ void AppMainWindow::showImage(cv::Mat img){
 }
 
 void AppMainWindow::onFaceDetected(int id){
-    nameLabel.set_text("Hello Dawid :)");
+    if(id) {
+        nameLabel.set_text("Hello Dawid :)");
+    } else {
+        nameLabel.set_text("Looking for someone...");
+    }
 }
