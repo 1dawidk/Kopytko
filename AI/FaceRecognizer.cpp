@@ -58,28 +58,31 @@ void FaceRecognizer::run() {
 
 
     while (runThread){
-        std::cout << "---------------------------------------" << endl;
+        context->log("---------------------------------------");
         //Get camera image
-        std::cout << "Get camera image..." << endl;
+        context->log("Get camera image...");
         camera->getImage(&imgBuff);
         //Convert to dlib/opencv image
-        std::cout << "Convert for rgb matrix..." << endl;
+        context->log("Convert for rgb matrix...");
         dlib::cv_image<dlib::bgr_pixel> tmp(imgBuff);
         dlib::matrix<dlib::rgb_pixel> img;
         dlib::assign_image(img, tmp);
         //Search for faces
-        std::cout << "Find faces..." << endl;
+        context->log("Find faces...");
         std::vector<dlib::rectangle> faces=face_detector(img);
 
         std::vector<dlib::matrix<dlib::rgb_pixel>> faceImgs;
 
-        std::cout << "Get faces chips..." << endl;
+        context->log("Get faces chips...");
         //Extract each face as 150x150px image
         for(int i=0; i<faces.size(); i++){
             auto shape= sp(img, faces[i]);
             dlib::matrix<dlib::rgb_pixel> face_chip;
 
-            std::cout << "Extracting chip " << i << " ..." << endl;
+            string msg= "Extracting chip ";
+            msg+=(i+1);
+            msg+=" ...";
+            context->log(msg);
             dlib::extract_image_chip(img, dlib::get_face_chip_details(shape, 150, 0.25), face_chip);
             faceImgs.push_back(face_chip);
         }
@@ -88,11 +91,11 @@ void FaceRecognizer::run() {
         // In this 128D vector space, images from the same person will be close to each other
         // but vectors from different people will be far apart.  So we can use these vectors to
         // identify if a pair of images are from the same person or from different people.
-        std::cout << "Face recognizing net working..." << endl;
+        context->log("Face recognizing net working...");
         std::vector<dlib::matrix<float,0,1>> face_descriptors= net(faceImgs);
 
 
-        std::cout << "Face recognizing net working [ Done ]" << endl;
+        context->log("Face recognizing net working [ Done ]");
         if(!faces.empty()) {
             cv::Rect faceRect;
             faceRect.x= (int)faces[0].left();
@@ -106,9 +109,9 @@ void FaceRecognizer::run() {
             context->onFaceDetected(0);
         }
 
-        std::cout << "Show image..." << endl;
+        context->log("Show image...");
         context->showImage(imgBuff);
-        std::cout << "---------------------------------------" << endl;
+        context->log("---------------------------------------");
         //###################
     }
 }

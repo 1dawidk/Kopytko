@@ -6,11 +6,12 @@
 
 
 int main(int argc, char *argv[]) {
-
+    Glib::thread_init();
     Gtk::Main kit(argc, argv);
 
     AppMainWindow appMainWindow;
     appMainWindow.init();
+
 
     Gtk::Main::run(appMainWindow);
 

@@ -10,15 +10,15 @@
 
 using namespace std;
 
-class ClockView : public Gtk::Label, Thread {
+class ClockView : public Gtk::Label{
 public:
     ClockView();
     ~ClockView();
 
 private:
-    void run() override;
-
-    void stop() override;
+    Glib::Thread *worker;
+    void work();
+    bool workAct;
 };
 
 
