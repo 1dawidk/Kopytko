@@ -92,11 +92,12 @@ void FaceRecognizer::run() {
         // but vectors from different people will be far apart.  So we can use these vectors to
         // identify if a pair of images are from the same person or from different people.
         context->log("Face recognizing net working...");
-        std::vector<dlib::matrix<float,0,1>> face_descriptors= net(faceImgs);
+        //std::vector<dlib::matrix<float,0,1>> face_descriptors= net(faceImgs);
 
 
         context->log("Face recognizing net working [ Done ]");
         if(!faces.empty()) {
+            dlib::save_jpeg(faceImgs[0], "default");
             cv::Rect faceRect;
             faceRect.x= (int)faces[0].left();
             faceRect.y= (int)faces[0].top();

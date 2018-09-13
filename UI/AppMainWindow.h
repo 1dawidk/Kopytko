@@ -8,6 +8,8 @@
 #include <UI/Views/DebugView.h>
 #include <opencv2/core/core.hpp>
 #include <cv.h>
+#include <dlib/matrix/matrix.h>
+#include <dlib/pixel.h>
 
 class FaceRecognizer; //#include "AI/FaceRecognizer.h"
 
