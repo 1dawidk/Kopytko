@@ -15,6 +15,11 @@ else()
     MESSAGE( STATUS "bluetooth Library: " ${bluetooth_lib} )
 endif()
 
+add_definitions(-DLIB_LINK_WITH_FFTW=OFF)
+add_definitions(-DLIB_LINK_WITH_LIBJPEG=OFF)
+add_definitions(-DLIB_LINK_WITH_LIBPNG=OFF)
+add_definitions(-DLIB_LINK_WITH_SQLITE3=OFF)
+
 add_subdirectory(./dlib dlib_build)
 
 find_package(Threads REQUIRED)
