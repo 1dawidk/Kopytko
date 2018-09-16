@@ -80,31 +80,34 @@ void FaceRecognizer::run() {
             dlib::matrix<dlib::rgb_pixel> face_chip;
 
             string msg= "Extracting chip ";
-            msg+=(i+1);
+            msg+=std::to_string(i+1);
             msg+=" ...";
             context->log(msg);
             dlib::extract_image_chip(img, dlib::get_face_chip_details(shape, 150, 0.25), face_chip);
-            faceImgs.push_back(face_chip);
+            faceImgs.push_back(move(face_chip));
         }
 
-        // This call asks the DNN to convert each face image in faces into a 128D vector.
-        // In this 128D vector space, images from the same person will be close to each other
-        // but vectors from different people will be far apart.  So we can use these vectors to
-        // identify if a pair of images are from the same person or from different people.
-        context->log("Face recognizing net working...");
-        std::vector<dlib::matrix<float,0,1>> face_descriptors= net(faceImgs);
 
+        if(!faceImgs.empty()) {
+            // This call asks the DNN to convert each face image in faces into a 128D vector.
+            // In this 128D vector space, images from the same person will be close to each other
+            // but vectors from different people will be far apart.  So we can use these vectors to
+            // identify if a pair of images are from the same person or from different people.
+            context->log("Face recognizing net working...");
+            std::vector<dlib::matrix<float, 0, 1>> face_descriptors = net(faceImgs);
+            context->log("Face recognizing net working [ Done ]");
+            context->log("Descriptors: ");
+            for(int i=0; i<face_descriptors.size(); i++){
+                string col_str="[ ";
+                for(int j=0; j<face_descriptors[i].nr(); j++){
+                    col_str+=std::to_string(face_descriptors[i](j,0))+", ";
+                }
 
-        context->log("Face recognizing net working [ Done ]");
-        if(!faces.empty()) {
-            dlib::save_jpeg(faceImgs[0], "default");
-            cv::Rect faceRect;
-            faceRect.x= (int)faces[0].left();
-            faceRect.y= (int)faces[0].top();
-            faceRect.height= (int)(faces[0].right()-faces[0].left());
-            faceRect.width= (int)(faces[0].bottom()-faces[0].top());
+                col_str+="]";
+                context->log("Face "+std::to_string(i+1)+": "+col_str);
+            }
+
             context->onFaceDetected(1);
-            cv::rectangle(imgBuff, faceRect, cvScalar(0, 0, 255));
 
         } else {
             context->onFaceDetected(0);
