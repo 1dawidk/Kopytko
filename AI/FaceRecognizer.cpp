@@ -98,13 +98,12 @@ void FaceRecognizer::run() {
             context->log("Face recognizing net working [ Done ]");
             context->log("Descriptors: ");
             for(int i=0; i<face_descriptors.size(); i++){
-                string col_str="[ ";
-                for(int j=0; j<face_descriptors[i].nr(); j++){
-                    col_str+=std::to_string(face_descriptors[i](j,0))+", ";
-                }
-
-                col_str+="]";
-                context->log("Face "+std::to_string(i+1)+": "+col_str);
+                cv::Rect faceRect;
+                faceRect.x= (int)faces[i].left();
+                faceRect.y= (int)faces[i].top();
+                faceRect.height= (int)(faces[i].right()-faces[i].left());
+                faceRect.width= (int)(faces[i].bottom()-faces[i].top());
+                cv::rectangle(imgBuff, faceRect, cvScalar(0, 0, 255), 2);
             }
 
             context->onFaceDetected(1);

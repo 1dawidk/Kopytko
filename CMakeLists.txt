@@ -31,7 +31,7 @@ pkg_check_modules(GTKMM gtkmm-2.4)
 include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
-add_executable(Kopytko main.cpp UI/Views/ClockView.cpp UI/Views/ClockView.h UI/Views/Header.cpp UI/Views/Header.h Misc/bcm2835.h Misc/Clock.cpp Misc/Clock.h Misc/Thread.cpp Misc/Thread.h HWDrivers/Camera.cpp HWDrivers/Camera.h AI/FaceRecognizer.cpp AI/FaceRecognizer.h UI/AppMainWindow.cpp UI/AppMainWindow.h UI/Views/DebugView.cpp UI/Views/DebugView.h UI/Views/CPUTempView.cpp UI/Views/CPUTempView.h)
+add_executable(Kopytko main.cpp UI/Views/ClockView.cpp UI/Views/ClockView.h UI/Views/Header.cpp UI/Views/Header.h Misc/bcm2835.h Misc/Clock.cpp Misc/Clock.h Misc/Thread.cpp Misc/Thread.h HWDrivers/Camera.cpp HWDrivers/Camera.h AI/FaceRecognizer.cpp AI/FaceRecognizer.h UI/AppMainWindow.cpp UI/AppMainWindow.h UI/Views/DebugView.cpp UI/Views/DebugView.h UI/Views/CPUTempView.cpp UI/Views/CPUTempView.h AI/FaceModel.cpp AI/FaceModel.h)
 target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib ${OpenCV_LIBS})
 
 if(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
