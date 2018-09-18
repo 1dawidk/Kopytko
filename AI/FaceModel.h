@@ -4,6 +4,10 @@
 #include <dlib/matrix.h>
 #include <string>
 #include <vector>
+#include <UI/Context.h>
+#include <iostream>
+
+#define FACEMODEL_FACE_NONE -1
 
 using namespace std;
 
@@ -14,9 +18,11 @@ public:
     float compare(dlib::matrix<float, 0, 1> other);
 
     string toString();
+    string getName();
 
-    static void writeModelsFile(vector<FaceModel*> &models, string fileName);
-    static void readModelsFile(vector<FaceModel*> &models, string fileName);
+    static void writeModelsFile(Context *context, vector<FaceModel*> &models, string fileName);
+    static void readModelsFile(Context *context, vector<FaceModel*> &models, string fileName);
+    static int findSimilar(vector<FaceModel*> &models, dlib::matrix<float, 0, 1> descriptor);
 private:
     string label;
     dlib::matrix<float, 0, 1> descriptor;

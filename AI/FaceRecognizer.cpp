@@ -32,7 +32,7 @@ using anet_type = dlib::loss_metric<dlib::fc_no_bias<128,dlib::avg_pool_everythi
 
 //END OF A KIND OF MAGIC
 
-FaceRecognizer::FaceRecognizer(AppMainWindow *context){
+FaceRecognizer::FaceRecognizer(Context *context){
     this->context= context;
 }
 
@@ -45,7 +45,6 @@ void FaceRecognizer::run() {
     runThread= true;
 
     //Init camera
-
     camera= new Camera();
     camera->init(512, 512);
 
@@ -56,33 +55,26 @@ void FaceRecognizer::run() {
     anet_type net;
     dlib::deserialize("../AI/data/dlib_face_recognition_resnet_model_v1.dat") >> net;
 
+    //Load face models
+    FaceModel::readModelsFile(context, faceModels, "default.data");
+
 
     while (runThread){
-        context->log("---------------------------------------");
         //Get camera image
-        context->log("Get camera image...");
         camera->getImage(&imgBuff);
         //Convert to dlib/opencv image
-        context->log("Convert for rgb matrix...");
         dlib::cv_image<dlib::bgr_pixel> tmp(imgBuff);
         dlib::matrix<dlib::rgb_pixel> img;
         dlib::assign_image(img, tmp);
         //Search for faces
-        context->log("Find faces...");
         std::vector<dlib::rectangle> faces=face_detector(img);
 
         std::vector<dlib::matrix<dlib::rgb_pixel>> faceImgs;
 
-        context->log("Get faces chips...");
         //Extract each face as 150x150px image
         for(int i=0; i<faces.size(); i++){
             auto shape= sp(img, faces[i]);
             dlib::matrix<dlib::rgb_pixel> face_chip;
-
-            string msg= "Extracting chip ";
-            msg+=std::to_string(i+1);
-            msg+=" ...";
-            context->log(msg);
             dlib::extract_image_chip(img, dlib::get_face_chip_details(shape, 150, 0.25), face_chip);
             faceImgs.push_back(move(face_chip));
         }
@@ -93,10 +85,8 @@ void FaceRecognizer::run() {
             // In this 128D vector space, images from the same person will be close to each other
             // but vectors from different people will be far apart.  So we can use these vectors to
             // identify if a pair of images are from the same person or from different people.
-            context->log("Face recognizing net working...");
+            context->log("Found "+std::to_string(faceImgs.size())+" faces");
             std::vector<dlib::matrix<float, 0, 1>> face_descriptors = net(faceImgs);
-            context->log("Face recognizing net working [ Done ]");
-            context->log("Descriptors: ");
             for(int i=0; i<face_descriptors.size(); i++){
                 cv::Rect faceRect;
                 faceRect.x= (int)faces[i].left();
@@ -104,17 +94,16 @@ void FaceRecognizer::run() {
                 faceRect.height= (int)(faces[i].right()-faces[i].left());
                 faceRect.width= (int)(faces[i].bottom()-faces[i].top());
                 cv::rectangle(imgBuff, faceRect, cvScalar(0, 0, 255), 2);
+                int idx= FaceModel::findSimilar(faceModels, face_descriptors[i]);
+
+                if(idx!=FACEMODEL_FACE_NONE)
+                    context->onFaceDetected(faceModels[i]->getName());
+                else
+                    context->onFaceDetected("");
             }
-
-            context->onFaceDetected(1);
-
-        } else {
-            context->onFaceDetected(0);
         }
 
-        context->log("Show image...");
         context->showImage(imgBuff);
-        context->log("---------------------------------------");
         //###################
     }
 }

@@ -18,7 +18,9 @@
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
-#include <UI/AppMainWindow.h>
+
+#include <UI/Context.h>
+#include <AI/FaceModel.h>
 
 //REQUIRED: dlib, libblas, liblapack, libsqlite-3
 
@@ -26,7 +28,7 @@ using namespace std;
 
 class FaceRecognizer : public Thread {
 public:
-    FaceRecognizer(AppMainWindow *context);
+    FaceRecognizer(Context *context);
     void stop() override;
 
 protected:
@@ -34,7 +36,9 @@ protected:
 
 private:
     Camera *camera;
-    AppMainWindow *context;
+    Context *context;
+
+    vector<FaceModel*> faceModels;
 };
 
 
