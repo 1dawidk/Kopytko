@@ -1,8 +1,11 @@
 #ifndef MORTFIRMWARE_CAMERA_H
 #define MORTFIRMWARE_CAMERA_H
 
+#ifndef DEBUG1
 #include <raspicam/raspicam.h>
 #include <raspicam/raspicam_cv.h>
+using namespace raspicam;
+#endif
 
 #ifdef DEBUG1
 
@@ -13,7 +16,7 @@
 
 #endif
 
-using namespace raspicam;
+
 
 class Camera {
 public:
