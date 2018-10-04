@@ -20,6 +20,7 @@
 #include <opencv2/core/core.hpp>
 
 #include <UI/Context.h>
+#include <UI/MainContext.h>
 #include <AI/FaceModel.h>
 
 //REQUIRED: dlib, libblas, liblapack, libsqlite-3

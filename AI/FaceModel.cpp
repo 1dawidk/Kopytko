@@ -40,7 +40,7 @@ string FaceModel::getName(){
 }
 
 void FaceModel::writeModelsFile(Context *context, vector<FaceModel*> &models, string fileName) {
-    ofstream file= context->openWriteFile("/AI/data/face_models/"+fileName, OPEN_FILE_MODE_RELATIVE);
+    ofstream file= context->openWriteFile("/data/"+fileName, OPEN_FILE_MODE_RELATIVE);
 
     if(file.is_open()) {
         for (int i = 0; i < models.size(); i++) {
@@ -53,7 +53,7 @@ void FaceModel::writeModelsFile(Context *context, vector<FaceModel*> &models, st
 
 void FaceModel::readModelsFile(Context *context, vector<FaceModel*> &models, string fileName) {
     string line;
-    ifstream file= context->openReadFile("/AI/data/face_models/"+fileName, OPEN_FILE_MODE_RELATIVE);
+    ifstream file= context->openReadFile("/data/"+fileName, OPEN_FILE_MODE_RELATIVE);
 
     if(file.is_open()){
         while (getline(file, line)){

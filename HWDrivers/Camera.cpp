@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include "Camera.h"
 
-#ifndef DEBUG1
+#ifdef BOARD_TYPE_RASPBERRYPI
 Camera::Camera() {
     cam_h= new RaspiCam_Cv();
 }
@@ -33,7 +33,7 @@ int Camera::getImage(cv::Mat *buf) {
 
 #endif
 
-#ifdef DEBUG1
+#ifdef BOARD_TYPE_STD
 
 Camera::Camera() {
 }

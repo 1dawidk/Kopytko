@@ -1,19 +1,17 @@
 #ifndef MORTFIRMWARE_CAMERA_H
 #define MORTFIRMWARE_CAMERA_H
 
-#ifndef DEBUG1
+#ifdef BOARD_TYPE_RASPBERRYPI
 #include <raspicam/raspicam.h>
 #include <raspicam/raspicam_cv.h>
 using namespace raspicam;
 #endif
 
-#ifdef DEBUG1
-
+#ifdef BOARD_TYPE_STD
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <highgui.h>
-
 #endif
 
 
@@ -30,7 +28,7 @@ private:
     unsigned int resY;
     unsigned int resX;
 
-#ifndef DEBUG1
+#ifdef BOARD_TYPE_RASPBERRYPI
     RaspiCam_Cv *cam_h;
 #endif
 };

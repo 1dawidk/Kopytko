@@ -3,52 +3,38 @@
 
 #include <gtkmm/window.h>
 #include <gtkmm/box.h>
-#include <gtkmm/image.h>
-#include <UI/Views/ClockView.h>
-#include <UI/Views/DebugView.h>
-#include <opencv2/core/core.hpp>
-#include <cv.h>
-#include <dlib/matrix/matrix.h>
-#include <dlib/pixel.h>
+#include <gdkmm/screen.h>
+#include <fstream>
+#include <iostream>
+
+using namespace std;
 
 #define OPEN_FILE_MODE_RELATIVE 0
 #define OPEN_FILE_MODE_ABSOLUTE 1
 
-class FaceRecognizer; //#include "AI/FaceRecognizer.h"
+#define CONTEXT_VERTICAL    0
+#define CONTEXT_HORIZONTAL  1
 
 class Context : public Gtk::Window{
 public:
-    void init(string runPath);
-
-    void showImage(cv::Mat img);
-    void onFaceDetected(string label);
-    void log(string msg);
-
-    void onShowImage();
-    void onLabelChange();
+    explicit Context(string runPath);
+    virtual void init();
+    void setContextView(Gtk::Box *view);
 
     ofstream openWriteFile(string path, int mode);
     ifstream openReadFile(string path, int mode);
 
+    static int prcToPix(int prc, int dir);
+
+    static int winW;
+    static int winH;
+
+
+
 private:
     string buildPath;
 
-    Gtk::Box *box;
 
-    //Views
-    ClockView *clockView;
-    DebugView *debugView;
-    Gtk::Image *imageView;
-    Gtk::Label nameLabel;
-
-    //GUI Thread
-    Glib::Dispatcher imgShowDispatcher;
-    Glib::Dispatcher labelChangeDispatcher;
-
-    //Other
-    FaceRecognizer *faceRecognizer;
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf;
-    string label;
 };
 
 

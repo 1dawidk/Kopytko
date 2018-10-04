@@ -1,7 +1,9 @@
 #include "ClockView.h"
 
 ClockView::ClockView() {
+    Gdk::Color textColor= Gdk::Color("white");
     this->modify_font(*(new Pango::FontDescription("sans bold 28")));
+    this->modify_fg(Gtk::STATE_NORMAL, textColor);
     this->set_max_width_chars(50);
     this->set_text("00:00");
 

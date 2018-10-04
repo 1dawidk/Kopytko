@@ -56,7 +56,7 @@ void FaceRecognizer::run() {
     dlib::deserialize("../AI/data/dlib_face_recognition_resnet_model_v1.dat") >> net;
 
     //Load face models
-    FaceModel::readModelsFile(context, faceModels, "default.data");
+    FaceModel::readModelsFile(context, faceModels, "known_faces");
 
 
     while (runThread){
@@ -85,7 +85,7 @@ void FaceRecognizer::run() {
             // In this 128D vector space, images from the same person will be close to each other
             // but vectors from different people will be far apart.  So we can use these vectors to
             // identify if a pair of images are from the same person or from different people.
-            context->log("Found "+std::to_string(faceImgs.size())+" faces");
+            ((MainContext*)context)->log("Found "+std::to_string(faceImgs.size())+" faces");
             std::vector<dlib::matrix<float, 0, 1>> face_descriptors = net(faceImgs);
             for(int i=0; i<face_descriptors.size(); i++){
                 cv::Rect faceRect;
@@ -97,13 +97,16 @@ void FaceRecognizer::run() {
                 int idx= FaceModel::findSimilar(faceModels, face_descriptors[i]);
 
                 if(idx!=FACEMODEL_FACE_NONE)
-                    context->onFaceDetected(faceModels[i]->getName());
-                else
-                    context->onFaceDetected("");
+                    ((MainContext*)context)->onFaceDetected(faceModels[idx]->getName());
+                else {
+                    ((MainContext *) context)->onFaceDetected("");
+                }
             }
+        } else {
+            ((MainContext*)context)->log("");
         }
 
-        context->showImage(imgBuff);
+        ((MainContext*)context)->showImage(imgBuff);
         //###################
     }
 }

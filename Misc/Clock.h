@@ -13,6 +13,13 @@ public:
     static long GetTimeM();
 
     static int GetDayMinutes();
+
+    static int getYear();
+    static int getMonth();
+    static int getDay();
+    static int getHour();
+    static int getMinutes();
+
 };
 
 
