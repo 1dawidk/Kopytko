@@ -15,12 +15,9 @@ else()
     MESSAGE( STATUS "bluetooth Library: " ${bluetooth_lib} )
 endif()
 
-add_definitions(-DBOARD_TYPE_RASPBERRYPI)
-get_directory_property(RUN_DEFS COMPILE_DEFINITIONS)
-
-
-if(RUN_DEFS MATCHES "BOARD_TYPE_RASPBERRYPI")
+if(${BOARD_TYPE} MATCHES RASPBERRY_PI)
     message("BOARD TYPE: It is Raspberry Pi")
+    add_definitions(-DBOARD_TYPE_RASPBERRYPI)
 else()
     message("BOARD TYPE: It is standard board")
     add_definitions(-DBOARD_TYPE_STD)
