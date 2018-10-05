@@ -54,3 +54,7 @@ int Context::prcToPix(int prc, int dir) {
    else if(dir==CONTEXT_HORIZONTAL)
        return (prc*winW)/100;
 }
+
+string Context::getRealPath(string path) {
+    return buildPath+path;
+}

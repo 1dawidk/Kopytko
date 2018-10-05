@@ -23,6 +23,7 @@ public:
 
     ofstream openWriteFile(string path, int mode);
     ifstream openReadFile(string path, int mode);
+    string getRealPath(string path);
 
     static int prcToPix(int prc, int dir);
 

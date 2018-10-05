@@ -51,9 +51,9 @@ void FaceRecognizer::run() {
     //Init dlib face detector
     dlib::frontal_face_detector face_detector= dlib::get_frontal_face_detector();
     dlib::shape_predictor sp;
-    dlib::deserialize("../AI/data/shape_predictor_5_face_landmarks.dat") >> sp;
+    dlib::deserialize(context->getRealPath("/AI/data/shape_predictor_5_face_landmarks.dat")) >> sp;
     anet_type net;
-    dlib::deserialize("../AI/data/dlib_face_recognition_resnet_model_v1.dat") >> net;
+    dlib::deserialize(context->getRealPath("/AI/data/dlib_face_recognition_resnet_model_v1.dat")) >> net;
 
     //Load face models
     FaceModel::readModelsFile(context, faceModels, "known_faces");
