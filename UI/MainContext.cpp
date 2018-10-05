@@ -68,6 +68,9 @@ void MainContext::init() {
             sigc::mem_fun(*this, &MainContext::onShowImage));
     labelChangeDispatcher.connect(
             sigc::mem_fun(*this, &MainContext::onLabelChange));
+
+    this->signal_key_press_event().connect(
+            sigc::mem_fun(*this, &MainContext::onKeyPress), false);
 }
 
 void MainContext::showImage(cv::Mat img){
@@ -105,4 +108,12 @@ void MainContext::onFaceDetected(string label){
 
 void MainContext::log(string msg) {
     heartbeatView->makeBeat(msg);
+}
+
+bool MainContext::onKeyPress(GdkEventKey *event) {
+    if(event->keyval==65307 && event->hardware_keycode==9 && event->state==0) {
+        cout << "Close app";
+    }
+
+    return false;
 }

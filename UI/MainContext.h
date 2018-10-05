@@ -37,6 +37,8 @@ public:
     void onLabelChange();
 
 private:
+    bool onKeyPress(GdkEventKey* event);
+
     Gtk::Box *topBox;
     Gtk::Box *midBox;
     Gtk::Box *leftMidBox;

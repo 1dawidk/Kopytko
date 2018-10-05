@@ -64,18 +64,24 @@ void ICMWeatherView::work() {
     //Append year
     urlBuilder+= to_string(Clock::getYear());
 
+    //Get time
+    int month= Clock::getMonth();
+    int day= Clock::getDay();
+    int hour= Clock::getHour();
+
     //Append month
-    if(Clock::getMonth()<10)
+    if(month<10)
         urlBuilder+="0";
-    urlBuilder+= to_string(Clock::getMonth());
+    urlBuilder+= to_string(month);
 
     //Append day
-    if(Clock::getDay()<10)
+    if(hour<7)
+        day--;
+    if(day<10)
         urlBuilder+="0";
-    urlBuilder+= to_string(Clock::getDay());;
+    urlBuilder+= to_string(day);
 
     //Append hour
-    int hour= Clock::getHour();
     if(hour<7)
         urlBuilder+= "18";
     else if (hour<12)
@@ -90,6 +96,8 @@ void ICMWeatherView::work() {
     urlBuilder+= "&col="+to_string(cityX[city]);
     urlBuilder+= "&lang=pl";
 
+    cout << urlBuilder << endl;
+
     curl_easy_setopt(curlHandle, CURLOPT_URL, urlBuilder.c_str());
     curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, ICMWeatherView::write_data);
     curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &stream);
@@ -100,7 +108,7 @@ void ICMWeatherView::work() {
 
 
 void ICMWeatherView::parse(Context *context) {
-    ifstream file= context->openReadFile("/data/cityGeo", OPEN_FILE_MODE_RELATIVE);
+    ifstream file= context->openReadFile("/data/cities_latlng", OPEN_FILE_MODE_RELATIVE);
 
     string line;
 

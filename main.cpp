@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     MainContext mainContext(argv[0]);
     mainContext.init();
 
-    Gtk::Main::run(mainContext);
+    kit.run(mainContext);
 
     return 0;
 }
