@@ -27,6 +27,7 @@ void MainContext::init() {
     midBox->pack_start(*midMidBox, Gtk::PACK_EXPAND_WIDGET);
     midBox->pack_start(*rightMidBox, Gtk::PACK_EXPAND_WIDGET);
     nameLabel.modify_font(*(new Pango::FontDescription("sans bold 28")));
+    nameLabel.modify_fg(Gtk::STATE_NORMAL, Gdk::Color("white"));
 
     //Add views to boxes
     topBox->pack_start(*clockView, Gtk::PACK_EXPAND_PADDING);
