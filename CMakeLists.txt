@@ -43,6 +43,6 @@ link_directories(${GTKMM_LIBRARY_DIRS})
 add_executable(Kopytko main.cpp UI/Views/ClockView.cpp UI/Views/ClockView.h UI/Views/Header.cpp UI/Views/Header.h Misc/bcm2835.h Misc/Clock.cpp Misc/Clock.h Misc/Thread.cpp Misc/Thread.h HWDrivers/Camera.cpp HWDrivers/Camera.h AI/FaceRecognizer.cpp AI/FaceRecognizer.h UI/Context.cpp UI/Context.h UI/Views/DebugView.cpp UI/Views/DebugView.h UI/Views/CPUTempView.cpp UI/Views/CPUTempView.h AI/FaceModel.cpp AI/FaceModel.h UI/MainContext.cpp UI/MainContext.h UI/Views/HeartbeatView.cpp UI/Views/HeartbeatView.h UI/Views/ICMWeatherView.cpp UI/Views/ICMWeatherView.h UI/Views/BatteryView.cpp UI/Views/BatteryView.h UI/AsyncTask.cpp UI/AsyncTask.h)
 target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib ${OpenCV_LIBS} ${CURL_LIBRARIES})
 
-if(RUN_DEFS MATCHES "BOARD_TYPE_RASPBERRYPI")
+if(${BOARD_TYPE} MATCHES RASPBERRY_PI)
     target_link_libraries(Kopytko ${bluetooth_lib} ${raspicam_CV_LIBS})
 endif()
