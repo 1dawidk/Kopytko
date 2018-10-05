@@ -87,7 +87,7 @@ void MainContext::onShowImage() {
 
 void MainContext::onLabelChange() {
     if(!label.empty()) {
-        nameLabel.set_text("Fak ju "+label+" :)");
+        nameLabel.set_text("Hello "+label+" :)");
         if(label=="Dawid" && lastLabel!=label) {
             midMidBox->pack_start(*icmWeatherView);
             midMidBox->show_all_children(true);
