@@ -4,17 +4,23 @@
 std::vector<Thread*> Thread::threads;
 
 void Thread::start() {
-    finished=false;
+    this->finished=false;
     id=threads.size();
     threads.push_back(this);
+    this->runThread=true;
     pthread_create(&threadHandle, nullptr, &Thread::threadExec, this);
 }
 
 void Thread::start(int id){
-    finished= false;
+    this->finished= false;
     this->id= id;
     threads.push_back(this);
+    this->runThread=true;
     pthread_create(&threadHandle, nullptr, &Thread::threadExec, this);
+}
+
+void Thread::stop(){
+    this->runThread=false;
 }
 
 bool Thread::isRunning() {
@@ -22,7 +28,11 @@ bool Thread::isRunning() {
 }
 
 void* Thread::threadExec(void *context) {
-    ((Thread*)context)->run();
+    ((Thread*)context)->onStart();
+    while( ((Thread*)context)->runThread) {
+        ((Thread *) context)->onRun();
+    }
+    ((Thread*)context)->onStop();
     ((Thread*)context)->finished= true;
 
     return 0;

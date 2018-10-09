@@ -3,6 +3,7 @@
 
 #include <gtkmm/window.h>
 #include <gtkmm/box.h>
+#include <gtkmm/main.h>
 #include <gdkmm/screen.h>
 #include <fstream>
 #include <iostream>
@@ -34,8 +35,6 @@ public:
 
 private:
     string buildPath;
-
-
 };
 
 

@@ -33,3 +33,8 @@ void ClockView::work() {
         }
     }
 }
+
+
+void ClockView::resize(int font_size) {
+    this->modify_font(*(new Pango::FontDescription("sans bold "+to_string(font_size))));
+}

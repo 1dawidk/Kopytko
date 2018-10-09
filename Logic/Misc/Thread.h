@@ -10,13 +10,14 @@ public:
     virtual void start();
     virtual void start(int id);
     bool isRunning();
-    virtual void stop()=0;
+    void stop();
     void kill();
     int getId();
 
-
 protected:
-    virtual void run()=0;
+    virtual void onStart()=0;
+    virtual void onRun()=0;
+    virtual void onStop()=0;
 
     bool runThread;
     pthread_t threadHandle;

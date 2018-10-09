@@ -4,8 +4,8 @@
 
 #include <stdlib.h>
 #include <gtkmm/label.h>
-#include "../../Misc/Thread.h"
-#include "../../Misc/Clock.h"
+#include "Logic/Misc/Thread.h"
+#include "Logic/Misc/Clock.h"
 #include <string>
 
 using namespace std;
@@ -14,6 +14,8 @@ class ClockView : public Gtk::Label{
 public:
     ClockView();
     ~ClockView();
+
+    void resize(int font_size);
 
 private:
     Glib::Thread *worker;

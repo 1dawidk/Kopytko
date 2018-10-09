@@ -50,6 +50,8 @@ int Camera::getImage(cv::Mat *buf) {
     capture.set(CV_CAP_PROP_FRAME_HEIGHT, 512);
     capture.set(CV_CAP_PROP_FRAME_WIDTH, 512);
     capture.read(*buf);
+
+    return 0;
 }
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef KOPYTKO_MAINCONTEXT_H
 #define KOPYTKO_MAINCONTEXT_H
 
-//UI
+//MainContext
 #include <UI/Context.h>
 #include <UI/Views/ClockView.h>
 #include <UI/Views/DebugView.h>
@@ -39,9 +39,9 @@ public:
 private:
     bool onKeyPress(GdkEventKey* event);
 
-    Gtk::Box *topBox;
+    Gtk::Box *headerBox;
     Gtk::Box *midBox;
-    Gtk::Box *leftMidBox;
+    Gtk::Box *notiBox;
     Gtk::Box *midMidBox;
     Gtk::Box *rightMidBox;
     Gtk::Box *bottomBox;

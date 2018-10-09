@@ -1,0 +1,10 @@
+#ifndef KOPYTKO_VOICERECOGNIZER_H
+#define KOPYTKO_VOICERECOGNIZER_H
+
+
+class VoiceRecognizer {
+
+};
+
+
+#endif //KOPYTKO_VOICERECOGNIZER_H

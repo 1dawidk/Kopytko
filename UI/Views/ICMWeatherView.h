@@ -8,7 +8,7 @@
 #include <opencv2/core/core.hpp>
 #include <cv.h>
 #include <iostream>
-#include <Misc/Clock.h>
+#include <Logic/Misc/Clock.h>
 
 #define ICMWEATHERVIEW_X_PARAM_A    16.350365
 #define ICMWEATHERVIEW_X_PARAM_B    (-93.875912)
