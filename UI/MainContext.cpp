@@ -34,8 +34,8 @@ void MainContext::init() {
     headerBox->pack_start(*clockView, Gtk::PACK_EXPAND_PADDING);
     bottomBox->pack_end(*heartbeatView, Gtk::PACK_SHRINK);
     midMidBox->pack_start(nameLabel, Gtk::PACK_SHRINK);
-    //midMidBox->pack_start(*imageView);
-    midMidBox->pack_start(*icmWeatherView);
+    midMidBox->pack_start(*imageView);
+    //midMidBox->pack_start(*icmWeatherView);
 
 
     //Show boxes all children

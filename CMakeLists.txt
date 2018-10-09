@@ -10,8 +10,6 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
 else()
     add_definitions(-DUSE_NEON_INSTRUCTIONS=ON)
     set(CMAKE_CXX_FLAGS "-mfpu=neon")
-    find_library(bluetooth_lib bluetooth REQUIRED)
-    MESSAGE( STATUS "bluetooth Library: " ${bluetooth_lib} )
 endif()
 
 if(${BOARD_TYPE} MATCHES RASPBERRY_PI)
