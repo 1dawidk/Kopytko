@@ -20,7 +20,7 @@
 #include <opencv2/core/core.hpp>
 
 #include <UI/Context.h>
-#include <UI/MainContext.h>
+#include <UI/UI.h>
 #include <Logic/AI/FaceModel.h>
 
 #include <Logic/AI/FaceNetTemplate.h>
@@ -33,7 +33,7 @@ using namespace std;
 
 class FaceRecognizer : public Thread {
 public:
-    FaceRecognizer(Context *context);
+    FaceRecognizer(UI *ui, DataProcessor *dataProcessor);
 
 protected:
     void onStart() override;
@@ -42,7 +42,8 @@ protected:
 
 private:
     Camera *camera;
-    Context *context;
+    UI *ui;
+    DataProcessor *dataProcessor;
     cv::Mat imgBuff;
 
     dlib::frontal_face_detector face_detector;

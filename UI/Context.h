@@ -18,23 +18,11 @@ using namespace std;
 
 class Context : public Gtk::Window{
 public:
-    explicit Context(string runPath);
+    explicit Context();
     virtual void init();
     void setContextView(Gtk::Box *view);
 
-    ofstream openWriteFile(string path, int mode);
-    ifstream openReadFile(string path, int mode);
-    string getRealPath(string path);
-
-    static int prcToPix(int prc, int dir);
-
-    static int winW;
-    static int winH;
-
-
-
 private:
-    string buildPath;
 };
 
 

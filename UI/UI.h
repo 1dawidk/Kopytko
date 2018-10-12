@@ -20,21 +20,28 @@
 //OpenCV
 #include <opencv2/core/core.hpp>
 #include <cv.h>
+#include <Session.h>
 
 using namespace std;
 class FaceRecognizer; //#include "AI/FaceRecognizer.h"
 
-class MainContext : public Context {
+class UI : public Gtk::Window{
 public:
-    MainContext(string runPath);
-    void init() override;
+    UI(DataProcessor *dataProcessor);
+    void init();
 
     void showImage(cv::Mat img);
-    void onFaceDetected(string label);
+    void faceDetectedCallback(int userId);
     void log(string msg);
 
     void onShowImage();
     void onLabelChange();
+
+    ofstream openWriteFile(string path, int mode);
+    ifstream openReadFile(string path, int mode);
+
+    //Statics
+    static int prcToPix(int prc, int dir);
 
 private:
     bool onKeyPress(GdkEventKey* event);
@@ -61,9 +68,20 @@ private:
 
     //Other
     FaceRecognizer *faceRecognizer;
+    DataProcessor *dataProcessor;
     Glib::RefPtr<Gdk::Pixbuf> pixbuf;
     string label;
     string lastLabel;
+
+    //Sessins
+    vector<Session*> sessions;
+    int runningSession;
+
+
+
+    //Statics
+    static int winW;
+    static int winH;
 };
 
 

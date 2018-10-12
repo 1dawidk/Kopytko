@@ -1,17 +1,17 @@
 #include <highgui.h>
 #include "ICMWeatherView.h"
-#include "UI/Context.h"
+#include "UI/UI.h"
 
 vector<string> ICMWeatherView::cityNames;
 vector<int> ICMWeatherView::cityX;
 vector<int> ICMWeatherView::cityY;
 
-ICMWeatherView::ICMWeatherView(Context *context) {
+ICMWeatherView::ICMWeatherView(UI *ui) {
     imageUpdateDispatcher.connect(
             sigc::mem_fun(*this, &ICMWeatherView::onImageUpdate));
 
     curlHandle=curl_easy_init();
-    ICMWeatherView::parse(context);
+    ICMWeatherView::parse(ui);
 
     this->city=-1;
 }
@@ -35,7 +35,7 @@ void ICMWeatherView::onImageUpdate() {
     //Resize image to 33% monitor width
     cv::Size s= img.size();
     int w= s.width;
-    int x= Context::prcToPix(33, CONTEXT_HORIZONTAL);
+    int x= UI::prcToPix(33, CONTEXT_HORIZONTAL);
     float scale= ((float)x)/w;
     cv::resize(img, img, cv::Size(), scale, scale);
 
@@ -107,8 +107,8 @@ void ICMWeatherView::work() {
 }
 
 
-void ICMWeatherView::parse(Context *context) {
-    ifstream file= context->openReadFile("/data/cities_latlng", OPEN_FILE_MODE_RELATIVE);
+void ICMWeatherView::parse(UI *ui) {
+    ifstream file= ui->openReadFile("/data/cities_latlng", OPEN_FILE_MODE_RELATIVE);
 
     string line;
 

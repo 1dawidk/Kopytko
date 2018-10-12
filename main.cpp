@@ -8,14 +8,16 @@
 
 int main(int argc, char *argv[]) {
     Glib::thread_init();
-    Gtk::Main mainLoop(argc, argv);
+    Gtk::Main kit(argc, argv);
 
     curl_global_init(CURL_GLOBAL_ALL);
 
-    MainContext mainContext(argv[0]);
-    mainContext.init();
+    DataProcessor dataProcessor(argv[0]);
 
-    Gtk::Main::run(mainContext);
+    UI ui(&dataProcessor);
+    ui.init();
+
+    Gtk::Main::run(ui);
 
     return 0;
 }

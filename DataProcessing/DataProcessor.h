@@ -10,11 +10,14 @@
 using namespace std;
 
 class DataProcessor {
-private:
-    string buildPath;
+public:
+    DataProcessor(string runPath);
+
     ofstream openWriteFile(string path, int mode);
     ifstream openReadFile(string path, int mode);
     string getRealPath(string path);
+private:
+    string buildPath;
 };
 
 

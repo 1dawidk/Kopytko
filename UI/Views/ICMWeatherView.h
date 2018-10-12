@@ -18,11 +18,11 @@
 
 using namespace std;
 
-class Context;
+class UI;
 
 class ICMWeatherView : public Gtk::Image{
 public:
-    ICMWeatherView(Context *context);
+    ICMWeatherView(UI *ui);
     ~ICMWeatherView();
     void setCity(string cityName);
     void refreshWeather();
@@ -44,7 +44,7 @@ private:
     static vector<string> cityNames;
     static vector<int> cityX;
     static vector<int> cityY;
-    static void parse(Context *context);
+    static void parse(UI *ui);
     static int findCity(string cityName);
 };
 

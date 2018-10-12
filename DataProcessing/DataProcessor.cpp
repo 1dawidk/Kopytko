@@ -1,5 +1,11 @@
 #include "DataProcessor.h"
 
+DataProcessor::DataProcessor(string runPath) {
+    size_t lastSlash= runPath.find_last_of('/');
+    buildPath= runPath.substr(0, lastSlash);
+    buildPath+="/..";
+}
+
 ofstream DataProcessor::openWriteFile(string path, int mode) {
     ofstream file;
 

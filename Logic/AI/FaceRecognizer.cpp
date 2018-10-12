@@ -1,10 +1,9 @@
 #include "FaceRecognizer.h"
 
 
-
-
-FaceRecognizer::FaceRecognizer(Context *context){
-    this->context= context;
+FaceRecognizer::FaceRecognizer(UI *ui, DataProcessor *dataProcessor){
+    this->ui= ui;
+    this->dataProcessor= dataProcessor;
 }
 
 
@@ -15,13 +14,13 @@ void FaceRecognizer::onStart() {
 
     //Init dlib face detector
     face_detector= dlib::get_frontal_face_detector();
-    dlib::deserialize(context->getRealPath("/data/ai_models/shape_predictor_5_face_landmarks.dat")) >> sp;
-    dlib::deserialize(context->getRealPath("/data/ai_models/dlib_face_recognition_resnet_model_v1.dat")) >> net;
+    dlib::deserialize(dataProcessor->getRealPath("/data/ai_models/shape_predictor_5_face_landmarks.dat")) >> sp;
+    dlib::deserialize(dataProcessor->getRealPath("/data/ai_models/dlib_face_recognition_resnet_model_v1.dat")) >> net;
 
     //Load face models
-    FaceModel::readModelsFile(context, faceModels, "known_faces");
+    FaceModel::readModelsFile(dataProcessor, faceModels, "known_faces");
 
-    ((MainContext *) context)->onFaceDetected("");
+    ui->faceDetectedCallback(0);
 }
 
 void FaceRecognizer::onRun() {
@@ -50,7 +49,7 @@ void FaceRecognizer::onRun() {
         // In this 128D vector space, images from the same person will be close to each other
         // but vectors from different people will be far apart.  So we can use these vectors to
         // identify if a pair of images are from the same person or from different people.
-        ((MainContext*)context)->log("Found "+std::to_string(faceImgs.size())+" faces");
+        ui->log("Found "+std::to_string(faceImgs.size())+" faces");
         std::vector<dlib::matrix<float, 0, 1>> face_descriptors = net(faceImgs);
         for(int i=0; i<face_descriptors.size(); i++){
             cv::Rect faceRect;
@@ -62,17 +61,17 @@ void FaceRecognizer::onRun() {
             int idx= FaceModel::findSimilar(faceModels, face_descriptors[i]);
 
             if(idx!=FACEMODEL_FACE_NONE)
-                ((MainContext*)context)->onFaceDetected(faceModels[idx]->getName());
+                ui->faceDetectedCallback(faceModels[idx]->getFaceId());
             else {
-                ((MainContext *) context)->onFaceDetected("");
+                ui->faceDetectedCallback(0);
             }
         }
     } else {
-        ((MainContext*)context)->log("");
-        ((MainContext *) context)->onFaceDetected("");
+        ui->log("");
+        ui->faceDetectedCallback(0);
     }
 
-    ((MainContext*)context)->showImage(imgBuff);
+    ui->showImage(imgBuff);
     //###################
 }
 

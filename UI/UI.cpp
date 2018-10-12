@@ -1,11 +1,17 @@
-#include "MainContext.h"
+#include "UI.h"
 #include "Logic/AI/FaceRecognizer.h"
 
-MainContext::MainContext(string runPath) : Context(runPath) {
+int UI::winW=0;
+int UI::winH=0;
+
+UI::UI(DataProcessor* dataProcessor){
+    this->dataProcessor= dataProcessor;
 }
 
-void MainContext::init() {
-    Context::init();
+void UI::init() {
+    Glib::RefPtr<Gdk::Screen> screen= Gdk::Screen::get_default();
+    winW= screen->get_width();
+    winH= screen->get_height();
 
     //Create views and boxes
     mainBox= Gtk::manage(new Gtk::VBox());
@@ -54,7 +60,7 @@ void MainContext::init() {
 
     //Set context view and show main box
     mainBox->show();
-    this->setContextView(mainBox);
+    this->add(*mainBox);
 
     //Setup layout params
     Gdk::Color bg_color("black");
@@ -62,31 +68,31 @@ void MainContext::init() {
     this->fullscreen();
 
     //Create and prepare Face Recognizer
-    faceRecognizer= new FaceRecognizer(this);
+    faceRecognizer= new FaceRecognizer(this, dataProcessor);
     faceRecognizer->start();
 
     //Create dispatchers
     imgShowDispatcher.connect(
-            sigc::mem_fun(*this, &MainContext::onShowImage));
+            sigc::mem_fun(*this, &UI::onShowImage));
     labelChangeDispatcher.connect(
-            sigc::mem_fun(*this, &MainContext::onLabelChange));
+            sigc::mem_fun(*this, &UI::onLabelChange));
 
     this->signal_key_press_event().connect(
-            sigc::mem_fun(*this, &MainContext::onKeyPress), false);
+            sigc::mem_fun(*this, &UI::onKeyPress), false);
 }
 
-void MainContext::showImage(cv::Mat img){
+void UI::showImage(cv::Mat img){
     pixbuf = Gdk::Pixbuf::create_from_data(img.data, Gdk::COLORSPACE_RGB, false, 8,
                                            img.cols, img.rows, img.step);
     heartbeatView->makeBeat();
     imgShowDispatcher();
 }
 
-void MainContext::onShowImage() {
+void UI::onShowImage() {
     imageView->set(pixbuf);
 }
 
-void MainContext::onLabelChange() {
+void UI::onLabelChange() {
     if(!label.empty()) {
         nameLabel.set_text("Hello "+label+" :)");
         if(label=="Dawid" && lastLabel!=label) {
@@ -103,22 +109,39 @@ void MainContext::onLabelChange() {
     lastLabel= label;
 }
 
-void MainContext::onFaceDetected(string label){
+void UI::faceDetectedCallback(int userId){
     this->label= label;
 
     heartbeatView->makeBeat();
     labelChangeDispatcher();
 }
 
-void MainContext::log(string msg) {
+void UI::log(string msg) {
     heartbeatView->makeBeat(msg);
 }
 
-bool MainContext::onKeyPress(GdkEventKey *event) {
+bool UI::onKeyPress(GdkEventKey *event) {
     if(event->keyval==65307 && event->hardware_keycode==9 && event->state==0) {
         cout << "Close app";
         Gtk::Main::quit();
     }
 
     return false;
+}
+
+int UI::prcToPix(int prc, int dir) {
+    if(dir==CONTEXT_VERTICAL)
+        return (prc*winH)/100;
+    else if(dir==CONTEXT_HORIZONTAL)
+        return (prc*winW)/100;
+    else
+        return 0;
+}
+
+ofstream UI::openWriteFile(string path, int mode) {
+    return dataProcessor->openWriteFile(path, mode);
+}
+
+ifstream UI::openReadFile(string path, int mode) {
+    return dataProcessor->openReadFile(path, mode);
 }
