@@ -2,7 +2,6 @@
 #include "Logic/HWDrivers/Camera.h"
 #include "Logic/AI/FaceRecognizer.h"
 #include <gtkmm/main.h>
-#include "UI/Context.h"
 #include "curl/curl.h"
 
 

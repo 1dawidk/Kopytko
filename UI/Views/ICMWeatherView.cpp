@@ -17,7 +17,6 @@ ICMWeatherView::ICMWeatherView(UI *ui) {
 }
 
 ICMWeatherView::~ICMWeatherView() {
-    worker->join();
     curl_easy_cleanup(curlHandle);
 }
 
@@ -32,19 +31,25 @@ void ICMWeatherView::onImageUpdate() {
     //Decode dowloaded stream
     cv::Mat img= cv::imdecode(stream, -1);
 
-    //Resize image to 33% monitor width
-    cv::Size s= img.size();
-    int w= s.width;
-    int x= UI::prcToPix(33, CONTEXT_HORIZONTAL);
-    float scale= ((float)x)/w;
-    cv::resize(img, img, cv::Size(), scale, scale);
+    if(img.rows>0 && img.cols>0) {
+        //Resize image to 33% monitor width
+        cv::Size s = img.size();
+        int w = s.width;
+        int x = UI::prcToPix(33, UI_HORIZONTAL);
 
-    //Write image
-    cv::imwrite("icm_image.png", img);
 
-    //Load pixbuf from file
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file("icm_image.png");
-    this->set(pixbuf);
+        float scale = ((float) x) / w;
+
+        cout << "Scale: " << scale << endl;
+        cv::resize(img, img, cv::Size(), scale, scale);
+
+        //Write image
+        cv::imwrite("icm_image.png", img);
+
+        //Load pixbuf from file
+        Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file("icm_image.png");
+        this->set(pixbuf);
+    }
 }
 
 void ICMWeatherView::setCity(string cityName) {
@@ -52,6 +57,7 @@ void ICMWeatherView::setCity(string cityName) {
 }
 
 void ICMWeatherView::refreshWeather() {
+    worker->join();
     if(city!=-1) {
         worker = Glib::Thread::create(
                 sigc::mem_fun(*this, &ICMWeatherView::work), true);
@@ -159,4 +165,9 @@ int ICMWeatherView::findCity(string cityName) {
     }
 
     return -1;
+}
+
+
+void ICMWeatherView::stop() {
+    worker->join();
 }

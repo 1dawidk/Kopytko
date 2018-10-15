@@ -8,6 +8,8 @@ UI::UI(DataProcessor* dataProcessor){
     this->dataProcessor= dataProcessor;
 }
 
+/***************** PUBLIC METHODS *********************/
+
 void UI::init() {
     Glib::RefPtr<Gdk::Screen> screen= Gdk::Screen::get_default();
     winW= screen->get_width();
@@ -40,8 +42,8 @@ void UI::init() {
     headerBox->pack_start(*clockView, Gtk::PACK_EXPAND_PADDING);
     bottomBox->pack_end(*heartbeatView, Gtk::PACK_SHRINK);
     midMidBox->pack_start(nameLabel, Gtk::PACK_SHRINK);
-    midMidBox->pack_start(*imageView);
-    //midMidBox->pack_start(*icmWeatherView);
+    //midMidBox->pack_start(*imageView);
+    midMidBox->pack_start(*icmWeatherView);
 
 
     //Show boxes all children
@@ -79,17 +81,14 @@ void UI::init() {
 
     this->signal_key_press_event().connect(
             sigc::mem_fun(*this, &UI::onKeyPress), false);
+
+    runningSession= UI_NO_SESSION_RUNNING;
 }
 
-void UI::showImage(cv::Mat img){
-    pixbuf = Gdk::Pixbuf::create_from_data(img.data, Gdk::COLORSPACE_RGB, false, 8,
-                                           img.cols, img.rows, img.step);
-    heartbeatView->makeBeat();
-    imgShowDispatcher();
-}
+
 
 void UI::onShowImage() {
-    imageView->set(pixbuf);
+    //imageView->set(pixbuf);
 }
 
 void UI::onLabelChange() {
@@ -98,7 +97,7 @@ void UI::onLabelChange() {
         if(label=="Dawid" && lastLabel!=label) {
             clockView->resize(32);
             icmWeatherView->show();
-            icmWeatherView->refreshWeather();
+            //icmWeatherView->refreshWeather();
         }
     } else {
         nameLabel.set_text("Looking for someone...");
@@ -109,16 +108,74 @@ void UI::onLabelChange() {
     lastLabel= label;
 }
 
-void UI::faceDetectedCallback(int userId){
-    this->label= label;
 
-    heartbeatView->makeBeat();
-    labelChangeDispatcher();
-}
 
 void UI::log(string msg) {
     heartbeatView->makeBeat(msg);
 }
+
+
+ofstream UI::openWriteFile(string path, int mode) {
+    return dataProcessor->openWriteFile(path, mode);
+}
+
+ifstream UI::openReadFile(string path, int mode) {
+    return dataProcessor->openReadFile(path, mode);
+}
+
+
+/***************** CALLBACKS ************************/
+
+void UI::showImageCallback(cv::Mat img){
+    pixbuf = Gdk::Pixbuf::create_from_data(img.data, Gdk::COLORSPACE_RGB, false, 8,
+                                           img.cols, img.rows, img.step);
+    heartbeatView->makeBeat();
+    imgShowDispatcher();
+}
+
+void UI::faceDetectedCallback(int userId){
+//    if(userId!=0) {
+//        this->label="Dawid";
+//    } else {
+//        this->label="";
+//    }
+//
+//    heartbeatView->makeBeat();
+//    labelChangeDispatcher();
+
+cout << "Face detected with id " << userId << endl;
+    if(runningSession!=UI_NO_SESSION_RUNNING){
+        cout << "Run session" << endl;
+        runningSession= 0;
+        sessions.push_back(new Session(userId, dataProcessor, this));
+    }
+}
+
+void UI::setRightViewCallback() {
+
+}
+
+void UI::setMiddleViewCallback() {
+
+}
+
+void UI::setLeftViewCallback() {
+
+}
+
+/********************* STATICS ************************/
+
+int UI::prcToPix(int prc, int dir) {
+    if(dir==UI_VERTICAL)
+        return (prc*winH)/100;
+    else if(dir==UI_HORIZONTAL)
+        return (prc*winW)/100;
+    else
+        return 0;
+}
+
+
+/***************** PRIVATE METHODS ********************/
 
 bool UI::onKeyPress(GdkEventKey *event) {
     if(event->keyval==65307 && event->hardware_keycode==9 && event->state==0) {
@@ -129,19 +186,7 @@ bool UI::onKeyPress(GdkEventKey *event) {
     return false;
 }
 
-int UI::prcToPix(int prc, int dir) {
-    if(dir==CONTEXT_VERTICAL)
-        return (prc*winH)/100;
-    else if(dir==CONTEXT_HORIZONTAL)
-        return (prc*winW)/100;
-    else
-        return 0;
-}
-
-ofstream UI::openWriteFile(string path, int mode) {
-    return dataProcessor->openWriteFile(path, mode);
-}
-
-ifstream UI::openReadFile(string path, int mode) {
-    return dataProcessor->openReadFile(path, mode);
+UI::~UI() {
+    icmWeatherView->stop();
+    faceRecognizer->stop();
 }

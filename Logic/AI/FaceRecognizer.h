@@ -19,9 +19,9 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
 
-#include <UI/Context.h>
 #include <UI/UI.h>
 #include <Logic/AI/FaceModel.h>
+#include <Logic/AI/FaceFinder.h>
 
 #include <Logic/AI/FaceNetTemplate.h>
 
@@ -41,9 +41,10 @@ protected:
     void onStop() override;
 
 private:
-    Camera *camera;
     UI *ui;
     DataProcessor *dataProcessor;
+
+    Camera *camera;
     cv::Mat imgBuff;
 
     dlib::frontal_face_detector face_detector;

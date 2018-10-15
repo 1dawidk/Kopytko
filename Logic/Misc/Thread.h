@@ -21,6 +21,7 @@ protected:
 
     bool runThread;
     pthread_t threadHandle;
+    pthread_mutex_t runMu;
 private:
     bool finished;
     int id;

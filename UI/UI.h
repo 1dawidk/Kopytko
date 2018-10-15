@@ -2,7 +2,6 @@
 #define KOPYTKO_MAINCONTEXT_H
 
 //MainContext
-#include <UI/Context.h>
 #include <UI/Views/ClockView.h>
 #include <UI/Views/DebugView.h>
 #include <UI/Views/HeartbeatView.h>
@@ -12,6 +11,7 @@
 #include <gtkmm/window.h>
 #include <gtkmm/box.h>
 #include <gtkmm/image.h>
+#include <gtkmm/main.h>
 
 //Dlib
 #include <dlib/matrix/matrix.h>
@@ -22,16 +22,24 @@
 #include <cv.h>
 #include <Session.h>
 
+#define UI_VERTICAL    0
+#define UI_HORIZONTAL  1
+
+#define UI_NO_SESSION_RUNNING -1
+
 using namespace std;
 class FaceRecognizer; //#include "AI/FaceRecognizer.h"
 
 class UI : public Gtk::Window{
 public:
-    UI(DataProcessor *dataProcessor);
-    void init();
+    explicit UI(DataProcessor *dataProcessor);
 
-    void showImage(cv::Mat img);
-    void faceDetectedCallback(int userId);
+    virtual ~UI();
+
+    void init();
+    void stop();
+
+
     void log(string msg);
 
     void onShowImage();
@@ -39,6 +47,12 @@ public:
 
     ofstream openWriteFile(string path, int mode);
     ifstream openReadFile(string path, int mode);
+
+    void showImageCallback(cv::Mat img);
+    void faceDetectedCallback(int userId);
+    void setRightViewCallback();
+    void setMiddleViewCallback();
+    void setLeftViewCallback();
 
     //Statics
     static int prcToPix(int prc, int dir);

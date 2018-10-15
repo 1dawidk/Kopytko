@@ -4,6 +4,7 @@
 std::vector<Thread*> Thread::threads;
 
 void Thread::start() {
+    runMu= PTHREAD_MUTEX_INITIALIZER;
     this->finished=false;
     id=threads.size();
     threads.push_back(this);
@@ -12,6 +13,7 @@ void Thread::start() {
 }
 
 void Thread::start(int id){
+    runMu= PTHREAD_MUTEX_INITIALIZER;
     this->finished= false;
     this->id= id;
     threads.push_back(this);
@@ -20,16 +22,24 @@ void Thread::start(int id){
 }
 
 void Thread::stop(){
+    pthread_mutex_lock(&runMu);
     this->runThread=false;
+    pthread_mutex_unlock(&runMu);
+    pthread_join(threadHandle, nullptr);
 }
 
 bool Thread::isRunning() {
-    return !finished;
+    bool run;
+    pthread_mutex_lock(&runMu);
+    run= runThread;
+    pthread_mutex_unlock(&runMu);
+
+    return run;
 }
 
 void* Thread::threadExec(void *context) {
     ((Thread*)context)->onStart();
-    while( ((Thread*)context)->runThread) {
+    while( ((Thread*)context)->isRunning()) {
         ((Thread *) context)->onRun();
     }
     ((Thread*)context)->onStop();
