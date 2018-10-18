@@ -22,18 +22,29 @@ void FaceRecognizer::onStart() {
     //Load face models
     FaceModel::readModelsFile(dataProcessor, faceModels, "known_faces");
 
-    ui->faceDetectedCallback(0);
+    ui->faceDetectedCallback(FACE_NO_FACE);
 }
 
 void FaceRecognizer::onRun() {
+
     //Get camera image
     camera->getImage(&imgBuff);
     //Convert to dlib/opencv image
     dlib::cv_image<dlib::bgr_pixel> tmp(imgBuff);
     dlib::matrix<dlib::rgb_pixel> img;
     dlib::assign_image(img, tmp);
+
+    //if needed kill thread
+    if(!runThread)
+        return;
+
     //Search for faces
     std::vector<dlib::rectangle> faces=face_detector(img);
+
+
+    //if needed kill thread
+    if(!runThread)
+        return;
 
     //Extract each face as 150x150px image
     vector<dlib::matrix<dlib::rgb_pixel>> faceImgs;
@@ -52,6 +63,10 @@ void FaceRecognizer::onRun() {
         // identify if a pair of images are from the same person or from different people.
         ui->log("Found "+std::to_string(faceImgs.size())+" faces");
 
+        //if needed kill thread
+        if(!runThread)
+            return;
+
         std::vector<dlib::matrix<float, 0, 1>> face_descriptors = net(faceImgs);
         for(int i=0; i<face_descriptors.size(); i++){
             int idx= FaceModel::findSimilar(faceModels, face_descriptors[i]);
@@ -60,12 +75,12 @@ void FaceRecognizer::onRun() {
                 cout << "Face id: " << faceModels[idx]->getFaceId() << endl;
                 ui->faceDetectedCallback(faceModels[idx]->getFaceId());
             }else {
-                ui->faceDetectedCallback(0);
+                ui->faceDetectedCallback(FACE_UNKNOWN);
             }
         }
     } else {
         ui->log("");
-        ui->faceDetectedCallback(0);
+        ui->faceDetectedCallback(FACE_NO_FACE);
     }
     //###################
 }

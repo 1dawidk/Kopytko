@@ -25,7 +25,8 @@
 
 #include <Logic/AI/FaceNetTemplate.h>
 
-
+#define FACE_NO_FACE    -1
+#define FACE_UNKNOWN    0
 
 //REQUIRED: dlib, libblas, liblapack, libsqlite-3
 

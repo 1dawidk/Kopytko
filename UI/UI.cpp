@@ -83,6 +83,9 @@ void UI::init() {
             sigc::mem_fun(*this, &UI::onKeyPress), false);
 
     runningSession= UI_NO_SESSION_RUNNING;
+
+    voice= new Voice(dataProcessor);
+    voice->init("/voice_words");
 }
 
 
@@ -142,6 +145,11 @@ void UI::faceDetectedCallback(int userId){
 //
 //    heartbeatView->makeBeat();
 //    labelChangeDispatcher();
+
+    if(userId==2)
+        voice->say("czesc dawid");
+    else if(userId==0)
+        voice->say("ciebie nieznam kim jestes");
 
 cout << "Face detected with id " << userId << endl;
     if(runningSession!=UI_NO_SESSION_RUNNING){

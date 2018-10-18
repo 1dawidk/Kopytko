@@ -37,3 +37,7 @@ ifstream DataProcessor::openReadFile(string path, int mode) {
 string DataProcessor::getRealPath(string path) {
     return buildPath+path;
 }
+
+string DataProcessor::getDataPath() {
+    return buildPath+"/data";
+}

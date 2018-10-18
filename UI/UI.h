@@ -6,6 +6,7 @@
 #include <UI/Views/DebugView.h>
 #include <UI/Views/HeartbeatView.h>
 #include <UI/Views/ICMWeatherView.h>
+#include <UI/Voice.h>
 
 //Gtk
 #include <gtkmm/window.h>
@@ -83,6 +84,7 @@ private:
     //Other
     FaceRecognizer *faceRecognizer;
     DataProcessor *dataProcessor;
+    Voice *voice;
     Glib::RefPtr<Gdk::Pixbuf> pixbuf;
     string label;
     string lastLabel;
