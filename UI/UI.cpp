@@ -84,8 +84,8 @@ void UI::init() {
 
     runningSession= UI_NO_SESSION_RUNNING;
 
-    //voice= new Voice(dataProcessor);
-    //voice->init("/voice_words");
+    voice= new Voice(dataProcessor);
+    voice->init("/voice_words");
 
     //SoundRecorder *soundRecorder= new SoundRecorder(5*16000, 2);
     //soundRecorder->start();
