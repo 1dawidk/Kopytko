@@ -77,6 +77,7 @@ void FaceRecognizer::onRun() {
             }else {
                 ui->faceDetectedCallback(FACE_UNKNOWN);
                 faceModels.push_back(new FaceModel(3, face_descriptors[i]));
+                FaceModel::writeModelsFile(dataProcessor, faceModels, "known_faces");
             }
         }
     } else {
