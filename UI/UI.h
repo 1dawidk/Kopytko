@@ -8,6 +8,8 @@
 #include <UI/Views/ICMWeatherView.h>
 #include <UI/Voice.h>
 
+#include <Logic/HWDrivers/SoundRecorder.h>
+
 //Gtk
 #include <gtkmm/window.h>
 #include <gtkmm/box.h>

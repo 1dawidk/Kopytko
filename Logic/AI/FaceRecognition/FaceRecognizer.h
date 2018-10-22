@@ -20,10 +20,10 @@
 #include <opencv2/core/core.hpp>
 
 #include <UI/UI.h>
-#include <Logic/AI/FaceModel.h>
-#include <Logic/AI/FaceFinder.h>
+#include <Logic/AI/FaceRecognition/FaceModel.h>
+#include <Logic/AI/FaceRecognition/FaceFinder.h>
 
-#include <Logic/AI/FaceNetTemplate.h>
+#include <Logic/AI/FaceRecognition/FaceNetTemplate.h>
 
 #define FACE_NO_FACE    -1
 #define FACE_UNKNOWN    0

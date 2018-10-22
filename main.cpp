@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Logic/HWDrivers/Camera.h"
-#include "Logic/AI/FaceRecognizer.h"
+#include "Logic/AI/FaceRecognition/FaceRecognizer.h"
 #include <gtkmm/main.h>
 #include "curl/curl.h"
 #include <SDL/SDL.h>

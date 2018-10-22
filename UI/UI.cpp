@@ -1,5 +1,5 @@
 #include "UI.h"
-#include "Logic/AI/FaceRecognizer.h"
+#include "Logic/AI/FaceRecognition/FaceRecognizer.h"
 
 int UI::winW=0;
 int UI::winH=0;
@@ -84,8 +84,11 @@ void UI::init() {
 
     runningSession= UI_NO_SESSION_RUNNING;
 
-    voice= new Voice(dataProcessor);
-    voice->init("/voice_words");
+    //voice= new Voice(dataProcessor);
+    //voice->init("/voice_words");
+
+    //SoundRecorder *soundRecorder= new SoundRecorder(5*16000, 2);
+    //soundRecorder->start();
 }
 
 
