@@ -24,6 +24,7 @@
 #include <opencv2/core/core.hpp>
 #include <cv.h>
 #include <Session.h>
+#include <Logic/AI/VoiceRecognition/VoiceRecognizer.h>
 
 #define UI_VERTICAL    0
 #define UI_HORIZONTAL  1
@@ -63,6 +64,8 @@ public:
 private:
     bool onKeyPress(GdkEventKey* event);
 
+
+    //Containers
     Gtk::Box *headerBox;
     Gtk::Box *midBox;
     Gtk::Box *notiBox;
@@ -85,8 +88,10 @@ private:
 
     //Other
     FaceRecognizer *faceRecognizer;
-    DataProcessor *dataProcessor;
+    VoiceRecognizer *voiceRecognizer;
     Voice *voice;
+
+    DataProcessor *dataProcessor;
     Glib::RefPtr<Gdk::Pixbuf> pixbuf;
     string label;
     string lastLabel;

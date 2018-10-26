@@ -1,33 +1,31 @@
+#include <Logic/Misc/Clock.h>
+#include <highgui.h>
 #include "VoiceRecognizer.h"
 
 void VoiceRecognizer::onStart() {
-    soundRecorder= new SoundRecorder(4000, 1);
+    soundRecorder= new SoundRecorder(8000, 1);
+    spectrumGatherer= new SpectrumGatherer(soundRecorder);
+
     soundRecorder->start();
+    spectrumGatherer->start();
 
-    soundHead=0;
-    sBuff= new int16_t[4000];
-    //sBuff= soundRecorder->createBuff();
-
-    soundPart= new double[320];
-    soundSpectrum= new double[320*100];  //320 per 20ms -> 50 * 20ms = 1s -> 250 / 50 = 5s
+    specBuff= new double[spectrumGatherer->getSpectrumBufferSize()];
 }
 
 void VoiceRecognizer::onRun() {
-    size_t readLen;
-    int overflowFlag;
-
-    overflowFlag=soundRecorder->getRecording((char*)sBuff, &readLen);
-
-    for(int i=0; i<readLen/320; i++){
-
-
-        //p= fftw_plan_dft_r2c_1d(320, soundPart, out)
-    }
-
-    //p= fftw_plan_dft_r2c_1d(320, sound, out, FFTW_MEASURE);
-
+    spectrumGatherer->getSpectrum(specBuff);
 }
 
 void VoiceRecognizer::onStop() {
+    cout << "\t\tStop: Spectrum Getherer" << endl;
+    spectrumGatherer->stop();
+    cout << "\t\tStop: Sound Recorder"  << endl;
+    soundRecorder->stop();
+    cout << "\t\tClean: Voice Recognizer memory" << endl;
 
+    delete spectrumGatherer;
+    delete soundRecorder;
+    delete[] specBuff;
 }
+
+

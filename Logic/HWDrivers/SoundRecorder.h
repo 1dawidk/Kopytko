@@ -6,14 +6,21 @@
 #include <alsa/asoundlib.h>
 #include <fstream>
 
+#define SOUNDRECORDER_FORMAT_8BIT
+#define SOUNDRECORDER_FORMAT_16BIT
+#define SOUNDRECORDER_FORMAT_32BIT
+#define SOUNDRECORDER_FORMAT_64BIT
+#define SOUNDRECORDER_FORMAT_FLOAT
+#define SOUNDRECORDER_FORMAT_DOUBLE
+
 using namespace std;
 
 class SoundRecorder : public Thread {
 public:
 
-    SoundRecorder(size_t buffSize, int chNo);
+    SoundRecorder(size_t frameBuffSize, int chNo);
     int getRecording(char* buff, size_t *len);
-    char* createBuff();
+    size_t getFrameBuffSize();
 
 protected:
     void onStart() override;
@@ -26,8 +33,8 @@ private:
     snd_pcm_format_t format;
 
     size_t buffHead;        //Byte pointer
-    size_t realBuffSize;    //Bytes in buffer
-    size_t buffSize;        //Readings per channel
+    size_t byteBuffSize;    //Bytes in buffer
+    size_t frameBuffSize;   //Frames in buffer
 
     int overflowFlag;       //Buffer overflow flag (1 - overflow occurred)
 

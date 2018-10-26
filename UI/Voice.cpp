@@ -103,6 +103,7 @@ void Voice::onRun() {
 }
 
 void Voice::onStop() {
+    cout << "\t\tClean: Voice memory" << endl;
     for(int i=0; i<queue.size(); i++){
         deleteSentence(queue[0]);
         delete queue[0];

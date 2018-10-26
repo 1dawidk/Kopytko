@@ -3,7 +3,10 @@
 
 #include <Logic/Misc/Thread.h>
 #include <Logic/HWDrivers/SoundRecorder.h>
+#include <Logic/AI/VoiceRecognition/SpectrumGatherer.h>
 #include <fftw3.h>
+#include <math.h>
+
 
 class VoiceRecognizer : public Thread {
 protected:
@@ -13,17 +16,9 @@ protected:
 
 private:
     SoundRecorder *soundRecorder;
+    SpectrumGatherer *spectrumGatherer;
 
-    int16_t* sBuff;
-
-    double* soundPart;
-    size_t  soundHead;
-    size_t  soundLen;
-
-    double* soundSpectrum;
-
-    fftw_complex *out;
-    fftw_plan p;
+    double *specBuff;
 };
 
 

@@ -1,7 +1,7 @@
 #include "SoundRecorder.h"
 
-SoundRecorder::SoundRecorder(size_t buffSize, int chNo) {
-    this->buffSize= buffSize;
+SoundRecorder::SoundRecorder(size_t frameBuffSize, int chNo) {
+    this->frameBuffSize= frameBuffSize;
     this->chNo= chNo;
     buffM= PTHREAD_MUTEX_INITIALIZER;
 }
@@ -19,21 +19,19 @@ int SoundRecorder::getRecording(char *buff, size_t *len) {
     return flag;
 }
 
-
-char *SoundRecorder::createBuff() {
-    return (char*)malloc(realBuffSize);
+size_t SoundRecorder::getFrameBuffSize() {
+    return frameBuffSize;
 }
-
 
 
 void SoundRecorder::onStart() {
     unsigned int rate = 16000;
 
     snd_pcm_hw_params_t *hw_params;
-    format = SND_PCM_FORMAT_S32_LE;
+    format = SND_PCM_FORMAT_FLOAT_LE;
 
     //Open audio interface
-    if( snd_pcm_open(&capture_handle, "default", SND_PCM_STREAM_CAPTURE, 0) < 0 ) {
+    if( snd_pcm_open(&capture_handle, "default", SND_PCM_STREAM_CAPTURE, SND_PCM_NONBLOCK) < 0 ) {
         cout << "Kopytko ERROR: cannot open audio interface" << endl;
         this->stop();
         return;
@@ -60,12 +58,19 @@ void SoundRecorder::onStart() {
         return;
     }
 
+    snd_pcm_uframes_t frames=2048;
+    int dir;
+    snd_pcm_hw_params_set_period_size_near(capture_handle, hw_params, &frames, &dir);
+
+    cout << "Dir " << dir;
+
+
     unsigned int re;
     snd_pcm_hw_params_get_rate_resample(capture_handle, hw_params,&re);
-    cout << "Resample state: " << to_string(re);
+    cout << "Resample state: " << to_string(re) << endl;
 
     //Set access type
-    if(snd_pcm_hw_params_set_access (capture_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED) < 0) {
+        if(snd_pcm_hw_params_set_access (capture_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED) < 0) {
         cout << "Kopytko ERROR: cannot set access type" << endl;
         this->stop();
         return;
@@ -108,11 +113,11 @@ void SoundRecorder::onStart() {
         cout << "Kopytko ERROR: cannon prepare audio interface" << endl;
     }
 
-    realBuffSize= buffSize * (snd_pcm_format_width(format)/8) * chNo;
-    buffer = (char*)malloc(realBuffSize);
+    byteBuffSize= frameBuffSize * (snd_pcm_format_width(format)/8) * chNo;
+    buffer = (char*)malloc(byteBuffSize);
     buffHead=0;
 
-    cout << "Format width: " << snd_pcm_format_width(format);
+    cout << "Format width: " << snd_pcm_format_width(format) << endl;
 
 }
 
@@ -121,10 +126,11 @@ void SoundRecorder::onRun() {
 
     pthread_mutex_lock(&buffM);
     if( (fr=snd_pcm_readi(capture_handle, buffer+buffHead, 128)) > 0) {
-        buffHead += fr;
+        buffHead += fr*(snd_pcm_format_width(format)/8);
+    } else {
     }
 
-    if(buffHead>=realBuffSize) {
+    if(buffHead>=byteBuffSize) {
         buffHead = 0;
         overflowFlag=1;
     }

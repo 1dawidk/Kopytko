@@ -87,8 +87,8 @@ void UI::init() {
     voice= new Voice(dataProcessor);
     voice->init("/voice_words");
 
-    //SoundRecorder *soundRecorder= new SoundRecorder(5*16000, 2);
-    //soundRecorder->start();
+    voiceRecognizer= new VoiceRecognizer();
+    voiceRecognizer->start();
 }
 
 
@@ -190,7 +190,7 @@ int UI::prcToPix(int prc, int dir) {
 
 bool UI::onKeyPress(GdkEventKey *event) {
     if(event->keyval==65307 && event->hardware_keycode==9 && event->state==0) {
-        cout << "Close app";
+        cout << "Closing Kopytko system:" << endl;
         Gtk::Main::quit();
     }
 
@@ -198,6 +198,12 @@ bool UI::onKeyPress(GdkEventKey *event) {
 }
 
 UI::~UI() {
-    icmWeatherView->stop();
+    //icmWeatherView->stop();
+    cout << "\tStop: Voice Recognizer " << endl;
+    voiceRecognizer->stop();
+    cout << "\tStop: FaceRecognizer " << endl;
     faceRecognizer->stop();
+    cout << "\tStop: Voice " << endl;
+    voice->stop();
+    cout << "[Done]" << endl;
 }
