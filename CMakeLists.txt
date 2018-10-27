@@ -36,7 +36,7 @@ find_package(ALSA REQUIRED)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-SET(GCC_COVERAGE_LINK_FLAGS "-lSDL2_mixer -lfftw3f -lm")
+SET(GCC_COVERAGE_LINK_FLAGS "-lSDL2_mixer -lm -lfftw3f")
 SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
 
 pkg_check_modules(GTKMM gtkmm-2.4)
