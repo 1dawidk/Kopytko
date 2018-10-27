@@ -6,13 +6,6 @@
 #include <alsa/asoundlib.h>
 #include <fstream>
 
-#define SOUNDRECORDER_FORMAT_8BIT
-#define SOUNDRECORDER_FORMAT_16BIT
-#define SOUNDRECORDER_FORMAT_32BIT
-#define SOUNDRECORDER_FORMAT_64BIT
-#define SOUNDRECORDER_FORMAT_FLOAT
-#define SOUNDRECORDER_FORMAT_DOUBLE
-
 using namespace std;
 
 class SoundRecorder : public Thread {

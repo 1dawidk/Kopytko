@@ -14,7 +14,6 @@ endif()
 
 if(${BOARD_TYPE} MATCHES RASPBERRY_PI)
     message("BOARD TYPE: It is Raspberry Pi")
-    find_package(raspicam REQUIRED)
     add_definitions(-DBOARD_TYPE_RASPBERRYPI)
 else()
     message("BOARD TYPE: It is standard board")
@@ -51,5 +50,5 @@ add_executable(Kopytko main.cpp UI/Views/ClockView.cpp UI/Views/ClockView.h UI/V
 target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib ${OpenCV_LIBS} ${CURL_LIBRARIES} ${bluetooth_lib} ${SDL2_LIBRARIES} ${ALSA_LIBRARIES})
 
 if(${BOARD_TYPE} MATCHES RASPBERRY_PI)
-    target_link_libraries(Kopytko ${bluetooth_lib} ${raspicam_CV_LIBS})
+    target_link_libraries(Kopytko ${bluetooth_lib})
 endif()
