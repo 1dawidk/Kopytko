@@ -21,7 +21,7 @@ protected:
     void onStop() override;
 
 private:
-    int chNo;               //Nuber of channels
+    int chNo;               //Number of channels
     char *buffer;           //Byte array
     snd_pcm_format_t format;
 

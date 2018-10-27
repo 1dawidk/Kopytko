@@ -87,8 +87,8 @@ void UI::init() {
     voice= new Voice(dataProcessor);
     voice->init("/voice_words");
 
-    //voiceRecognizer= new VoiceRecognizer();
-    //voiceRecognizer->start();
+    voiceRecognizer= new VoiceRecognizer();
+    voiceRecognizer->start();
 }
 
 
