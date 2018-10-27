@@ -31,7 +31,7 @@ void SoundRecorder::onStart() {
     format = SND_PCM_FORMAT_FLOAT_LE;
 
     //Open audio interface
-    if( snd_pcm_open(&capture_handle, "default", SND_PCM_STREAM_CAPTURE, SND_PCM_NONBLOCK) < 0 ) {
+    if( snd_pcm_open(&capture_handle, "plughw:1,0", SND_PCM_STREAM_CAPTURE, SND_PCM_NONBLOCK) < 0 ) {
         cout << "Kopytko ERROR: cannot open audio interface" << endl;
         this->stop();
         return;
