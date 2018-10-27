@@ -13,7 +13,7 @@ void VoiceRecognizer::onStart() {
 }
 
 void VoiceRecognizer::onRun() {
-    spectrumGatherer->getSpectrum(specBuff);
+    //spectrumGatherer->getSpectrum(specBuff);
 }
 
 void VoiceRecognizer::onStop() {
