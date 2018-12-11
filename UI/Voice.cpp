@@ -1,8 +1,8 @@
+#include <Debug/Log.h>
 #include "Voice.h"
 
 /************** PUBLICS ****************/
-Voice::Voice(DataProcessor *dataProcessor) {
-    this->dataProcessor= dataProcessor;
+Voice::Voice() {
 }
 
 void Voice::init(string voicesDir) {
@@ -33,12 +33,13 @@ void Voice::say(const char *format, ...) {
         wcharPos= sentence.find_first_of(' ', wcharPos+1);
         string word;
 
+        if(lastWcharPos)
+            lastWcharPos++;
+
         if(wcharPos!=string::npos) {
-            if(lastWcharPos)
-                lastWcharPos++;
             word = sentence.substr(lastWcharPos, wcharPos - lastWcharPos);
         } else {
-            word = sentence.substr(lastWcharPos+1);
+            word = sentence.substr(lastWcharPos);
         }
 
         voiceSentence->push_back(loadWord(word));

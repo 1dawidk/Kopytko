@@ -1,6 +1,8 @@
 #include "DataProcessor.h"
 
-DataProcessor::DataProcessor(string runPath) {
+string DataProcessor::buildPath;
+
+void DataProcessor::init(string runPath) {
     size_t lastSlash= runPath.find_last_of('/');
     buildPath= runPath.substr(0, lastSlash);
     buildPath+="/..";

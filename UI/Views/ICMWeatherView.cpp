@@ -6,12 +6,12 @@ vector<string> ICMWeatherView::cityNames;
 vector<int> ICMWeatherView::cityX;
 vector<int> ICMWeatherView::cityY;
 
-ICMWeatherView::ICMWeatherView(UI *ui) {
+ICMWeatherView::ICMWeatherView() {
     imageUpdateDispatcher.connect(
             sigc::mem_fun(*this, &ICMWeatherView::onImageUpdate));
 
     curlHandle=curl_easy_init();
-    ICMWeatherView::parse(ui);
+    ICMWeatherView::parse();
 
     this->city=-1;
 }
@@ -113,8 +113,8 @@ void ICMWeatherView::work() {
 }
 
 
-void ICMWeatherView::parse(UI *ui) {
-    ifstream file= ui->openReadFile("/data/cities_latlng", OPEN_FILE_MODE_RELATIVE);
+void ICMWeatherView::parse() {
+    ifstream file= DataProcessor::openReadFile("/data/cities_latlng", OPEN_FILE_MODE_RELATIVE);
 
     string line;
 

@@ -4,6 +4,7 @@
 #include <gtkmm/main.h>
 #include "curl/curl.h"
 #include <SDL/SDL.h>
+#include <Debug/Log.h>
 
 
 int main(int argc, char *argv[]) {
@@ -14,9 +15,11 @@ int main(int argc, char *argv[]) {
 
     curl_global_init(CURL_GLOBAL_ALL);
 
-    DataProcessor dataProcessor(argv[0]);
+    DataProcessor::init(argv[0]);
+    Log log;
+    log.init();
 
-    UI ui(&dataProcessor);
+    UI ui;
     ui.init();
 
     Gtk::Main::run(ui);

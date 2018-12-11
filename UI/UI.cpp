@@ -1,16 +1,17 @@
 #include "UI.h"
 #include "Logic/AI/FaceRecognition/FaceRecognizer.h"
+#include <Debug/Log.h>
 
 int UI::winW=0;
 int UI::winH=0;
 
-UI::UI(DataProcessor* dataProcessor){
-    this->dataProcessor= dataProcessor;
-}
-
 /***************** PUBLIC METHODS *********************/
 
 void UI::init() {
+    voice= new Voice();
+    voice->init("/voice_words");
+    voice->say("cmd_greeting");
+
     Glib::RefPtr<Gdk::Screen> screen= Gdk::Screen::get_default();
     winW= screen->get_width();
     winH= screen->get_height();
@@ -27,7 +28,7 @@ void UI::init() {
     clockView= Gtk::manage(new ClockView());
     clockView->resize(58);
     imageView= Gtk::manage(new Gtk::Image());
-    icmWeatherView= Gtk::manage(new ICMWeatherView(this));
+    icmWeatherView= Gtk::manage(new ICMWeatherView());
     icmWeatherView->setCity("Warszawa");
     heartbeatView= Gtk::manage(new HeartbeatView());
 
@@ -70,7 +71,7 @@ void UI::init() {
     this->fullscreen();
 
     //Create and prepare Face Recognizer
-    faceRecognizer= new FaceRecognizer(this, dataProcessor);
+    faceRecognizer= new FaceRecognizer(this);
     faceRecognizer->start();
 
     //Create dispatchers
@@ -84,11 +85,10 @@ void UI::init() {
 
     runningSession= UI_NO_SESSION_RUNNING;
 
-    voice= new Voice(dataProcessor);
-    voice->init("/voice_words");
-
     voiceRecognizer= new VoiceRecognizer();
     voiceRecognizer->start();
+
+    voice->say("cmd_ready");
 }
 
 
@@ -121,15 +121,6 @@ void UI::log(string msg) {
 }
 
 
-ofstream UI::openWriteFile(string path, int mode) {
-    return dataProcessor->openWriteFile(path, mode);
-}
-
-ifstream UI::openReadFile(string path, int mode) {
-    return dataProcessor->openReadFile(path, mode);
-}
-
-
 /***************** CALLBACKS ************************/
 
 void UI::showImageCallback(cv::Mat img){
@@ -140,25 +131,22 @@ void UI::showImageCallback(cv::Mat img){
 }
 
 void UI::faceDetectedCallback(int userId){
-//    if(userId!=0) {
-//        this->label="Dawid";
-//    } else {
-//        this->label="";
-//    }
-//
-//    heartbeatView->makeBeat();
-//    labelChangeDispatcher();
 
-    if(userId==2)
-        voice->say("czesc dawid");
-    else if(userId==0)
-        voice->say("ciebie nieznam kim jestes");
+    cout << "Face detected with id " << userId << endl;
+    if(userId!=FACE_NO_FACE) {
+        if(userId==FACE_UNKNOWN){
 
-cout << "Face detected with id " << userId << endl;
-    if(runningSession!=UI_NO_SESSION_RUNNING){
-        cout << "Run session" << endl;
-        runningSession= 0;
-        sessions.push_back(new Session(userId, dataProcessor, this));
+        } else {
+            if (runningSession == UI_NO_SESSION_RUNNING) {
+                cout << "Run session" << endl;
+                voice->say("hello dawid");
+                runningSession = 0;
+                sessions.push_back(new Session(userId, this));
+            }
+        }
+    } else {
+        sessions.clear();
+        runningSession = UI_NO_SESSION_RUNNING;
     }
 }
 

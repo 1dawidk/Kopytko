@@ -34,7 +34,7 @@ using namespace std;
 
 class FaceRecognizer : public Thread {
 public:
-    FaceRecognizer(UI *ui, DataProcessor *dataProcessor);
+    FaceRecognizer(UI *ui);
 
 protected:
     void onStart() override;

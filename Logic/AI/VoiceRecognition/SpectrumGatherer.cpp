@@ -65,12 +65,6 @@ void SpectrumGatherer::onRun() {
             //If spectrum end has reached spectrum buff size -> cycle
             if (spectrumHead >= 320 * 100) {
                 spectrumHead = 0;
-                cv::Mat outImg(640, 900, CV_8UC3);
-                cv::resize(*img, outImg, cv::Size(900, 640));
-                cv::imwrite("spec.png", outImg);
-                cout << "New spectrum write!" << endl;
-                cout << "Recording took " << Clock::GetTimeMs()-t << "ms" << endl;
-                t=Clock::GetTimeMs();
             }
         }
 

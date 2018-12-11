@@ -1,7 +1,7 @@
 #include "FaceRecognizer.h"
 
 
-FaceRecognizer::FaceRecognizer(UI *ui, DataProcessor *dataProcessor){
+FaceRecognizer::FaceRecognizer(UI *ui){
     this->ui= ui;
     this->dataProcessor= dataProcessor;
 }

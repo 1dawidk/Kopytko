@@ -73,3 +73,8 @@ int Thread::findThreadPosById(int id) {
 
     return -1;
 }
+
+void Thread::pause(int ms) {
+    struct timespec tp= {0, ms*1000};
+    nanosleep(&tp, NULL);
+}

@@ -36,21 +36,15 @@ class FaceRecognizer; //#include "AI/FaceRecognizer.h"
 
 class UI : public Gtk::Window{
 public:
-    explicit UI(DataProcessor *dataProcessor);
-
     virtual ~UI();
 
     void init();
     void stop();
 
-
     void log(string msg);
 
     void onShowImage();
     void onLabelChange();
-
-    ofstream openWriteFile(string path, int mode);
-    ifstream openReadFile(string path, int mode);
 
     void showImageCallback(cv::Mat img);
     void faceDetectedCallback(int userId);
@@ -91,7 +85,6 @@ private:
     VoiceRecognizer *voiceRecognizer;
     Voice *voice;
 
-    DataProcessor *dataProcessor;
     Glib::RefPtr<Gdk::Pixbuf> pixbuf;
     string label;
     string lastLabel;

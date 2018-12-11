@@ -11,7 +11,7 @@ using namespace std;
 
 class Voice : public Thread {
 public:
-    Voice(DataProcessor *dataProcessor);
+    Voice();
     void init(string voicesDir);
     void say(const char *format, ...);
 

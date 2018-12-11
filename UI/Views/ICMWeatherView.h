@@ -22,7 +22,7 @@ class UI;
 
 class ICMWeatherView : public Gtk::Image{
 public:
-    ICMWeatherView(UI *ui);
+    ICMWeatherView();
     ~ICMWeatherView();
     void setCity(string cityName);
     void refreshWeather();
@@ -46,7 +46,7 @@ private:
     static vector<string> cityNames;
     static vector<int> cityX;
     static vector<int> cityY;
-    static void parse(UI *ui);
+    static void parse();
     static int findCity(string cityName);
 };
 

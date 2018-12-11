@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <sys/signal.h>
 #include <vector>
+#include "Clock.h"
 
 class Thread {
 public:
@@ -22,6 +23,8 @@ protected:
     bool runThread;
     pthread_t threadHandle;
     pthread_mutex_t runMu;
+
+    static void pause(int ms);
 private:
     bool finished;
     int id;
