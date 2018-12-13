@@ -4,8 +4,11 @@
 #include <Logic/Misc/Thread.h>
 #include <DataProcessing/DataProcessor.h>
 #include <UI/User.h>
+#include <string>
 
-#define LINE_LABELS_NO      3
+#define SESSION_IDLE_MAX_DURATION_S 0
+
+using namespace std;
 
 class UI;
 
@@ -13,7 +16,11 @@ class Session : public Thread {
 public:
     Session(int userId, UI *ui);
 
+    void refresh();
+
     int getUserId();
+    long getUpTime();
+    string getUserName();
 protected:
     void onStart() override;
     void onRun() override;
@@ -21,6 +28,8 @@ protected:
 
 private:
     User *user;
+
+    long startTime;
 
     UI *ui;
 };

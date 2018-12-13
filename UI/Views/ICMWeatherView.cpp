@@ -1,4 +1,5 @@
 #include <highgui.h>
+#include <Debug/Log.h>
 #include "ICMWeatherView.h"
 #include "UI/UI.h"
 
@@ -40,7 +41,7 @@ void ICMWeatherView::onImageUpdate() {
 
         float scale = ((float) x) / w;
 
-        cout << "Scale: " << scale << endl;
+        Log::write("ICMWeatherView", "Scale: %f", scale);
         cv::resize(img, img, cv::Size(), scale, scale);
 
         //Write image
@@ -102,7 +103,7 @@ void ICMWeatherView::work() {
     urlBuilder+= "&col="+to_string(cityX[city]);
     urlBuilder+= "&lang=pl";
 
-    cout << urlBuilder << endl;
+    Log::write("ICMWeatherView", "%s", urlBuilder.c_str());
 
     curl_easy_setopt(curlHandle, CURLOPT_URL, urlBuilder.c_str());
     curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, ICMWeatherView::write_data);

@@ -83,7 +83,11 @@ void UI::init() {
     this->signal_key_press_event().connect(
             sigc::mem_fun(*this, &UI::onKeyPress), false);
 
-    runningSession= UI_NO_SESSION_RUNNING;
+    //Prepare session environment
+    session= NULL;
+    sessionDispatcher.connect(
+            sigc::mem_fun(*this, &UI::onSessionAction));
+
 
     voiceRecognizer= new VoiceRecognizer();
     voiceRecognizer->start();
@@ -114,6 +118,9 @@ void UI::onLabelChange() {
     lastLabel= label;
 }
 
+void UI::onSessionAction() {
+
+}
 
 
 void UI::log(string msg) {
@@ -131,22 +138,44 @@ void UI::showImageCallback(cv::Mat img){
 }
 
 void UI::faceDetectedCallback(int userId){
-
-    cout << "Face detected with id " << userId << endl;
+    Log::write("UI", "Face detected with id %d", userId);
+    //If face is present
     if(userId!=FACE_NO_FACE) {
+        //If face is unknown
         if(userId==FACE_UNKNOWN){
-
+            //Close session
+            session->stop();
+            delete session;
         } else {
-            if (runningSession == UI_NO_SESSION_RUNNING) {
-                cout << "Run session" << endl;
-                voice->say("hello dawid");
-                runningSession = 0;
-                sessions.push_back(new Session(userId, this));
+            //If there is no session running
+            if (session==NULL) {
+                //Open new session
+                Log::write("UI", "Run session");
+                session= new Session(userId, this);
+                voice->say("hello %s", (session->getUserName()).c_str());
+            //If same user detected
+            } else if(session->getUserId()==userId) {
+                session->refresh();
+            //If other user was detected
+            } else {
+                //Close previous session
+                session->stop();
+                delete session;
+
+                //Open new session
+                Log::write("UI", "Change session");
+                session= new Session(userId, this);
+                voice->say("hello %s", (session->getUserName()).c_str());
             }
         }
+    //If no face found
     } else {
-        sessions.clear();
-        runningSession = UI_NO_SESSION_RUNNING;
+        //Check if there is session and if it should be closed
+        if(session!=NULL && session->getUpTime()>SESSION_IDLE_MAX_DURATION_S) {
+            session->stop();
+            delete session;
+            session = NULL;
+        }
     }
 }
 
@@ -178,7 +207,8 @@ int UI::prcToPix(int prc, int dir) {
 
 bool UI::onKeyPress(GdkEventKey *event) {
     if(event->keyval==65307 && event->hardware_keycode==9 && event->state==0) {
-        cout << "Closing Kopytko system:" << endl;
+        Log::write("UI", "Closing Kopytko system");
+        voice->say("cmd_bye");
         Gtk::Main::quit();
     }
 
@@ -187,11 +217,11 @@ bool UI::onKeyPress(GdkEventKey *event) {
 
 UI::~UI() {
     //icmWeatherView->stop();
-    cout << "\tStop: Voice Recognizer " << endl;
+    Log::write("UI", "Stop: Voice Recognizer");
     voiceRecognizer->stop();
-    cout << "\tStop: FaceRecognizer " << endl;
+    Log::write("UI", "Stop: Face Recognizer");
     faceRecognizer->stop();
-    cout << "\tStop: Voice " << endl;
+    Log::write("UI", "Stop: Voice");
     voice->stop();
-    cout << "[Done]" << endl;
+    Log::write("UI", "Bye bye");
 }

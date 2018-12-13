@@ -5,10 +5,24 @@ Session::Session(int userId, UI *ui) {
     this->ui= ui;
 
     user= new User(userId);
+
+    startTime= Clock::GetTimeS();
 }
 
 int Session::getUserId() {
-    return 0;
+    return user->getId();
+}
+
+void Session::refresh() {
+    startTime= Clock::GetTimeS();
+}
+
+string Session::getUserName() {
+    return user->getName();
+}
+
+long Session::getUpTime() {
+    return Clock::GetTimeS()-startTime;
 }
 
 void Session::onStart() {
@@ -26,5 +40,6 @@ void Session::onRun() {
 }
 
 void Session::onStop() {
+    delete user;
     //Clear user layout
 }

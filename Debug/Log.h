@@ -12,7 +12,7 @@ using namespace std;
 class Log : Thread {
 public:
     void init();
-    static void write(const char *format, ...);
+    static void write(const char* tag, const char *format, ...);
 private:
     void onStart() override;
     void onRun() override;

@@ -10,12 +10,17 @@ using namespace std;
 class User {
 public:
     User(int userId);
+
+    int getId();
+    string getName();
+    long getDeviceId();
+    long getHomeId();
 private:
     int id;
     string name;
     string sname;
-    int deviceId;
-    int homeId;
+    long deviceId;
+    long homeId;
 
     static int getLineLabelId(string &line);
     static string getLineLabel(string &line);

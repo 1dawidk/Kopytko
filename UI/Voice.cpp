@@ -7,7 +7,7 @@ Voice::Voice() {
 
 void Voice::init(string voicesDir) {
     if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 ){
-        cout << "Error opening audio: " << Mix_GetError()  << endl;
+        Log::write("Voice", "Error opening audio: %d", Mix_GetError());
     }
     this->voices_dir= voicesDir;
     if(voices_dir[voicesDir.length()-1]!='/')
@@ -21,8 +21,9 @@ void Voice::say(const char *format, ...) {
     va_list args;
     va_start(args, format);
     char buff[512];
-    sprintf(buff, format, args);
+    vsprintf(buff, format, args);
     string sentence(buff);
+    va_end(args);
 
     vector<Mix_Music*> *voiceSentence= new vector<Mix_Music*>();
 
@@ -104,7 +105,7 @@ void Voice::onRun() {
 }
 
 void Voice::onStop() {
-    cout << "\t\tClean: Voice memory" << endl;
+    Log::write("Voice", "Clear memory");
     for(int i=0; i<queue.size(); i++){
         deleteSentence(queue[0]);
         delete queue[0];

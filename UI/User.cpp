@@ -1,4 +1,5 @@
 #include <DataProcessing/DataProcessor.h>
+#include <Debug/Log.h>
 #include "User.h"
 
 string User::idToLabel[LINE_LABELS_NO]={
@@ -27,18 +28,18 @@ User::User(int userId) {
                     sname= line.substr(spacePos+1);
                     break;
                 case 1:
-                    deviceId= stoi(value);
+                    deviceId= stol(value);
                     break;
                 case 2:
-                    homeId= stoi(value);
+                    homeId= stol(value);
                     break;
             }
         }
 
         file.close();
-        cout << "New user:  " << name << " " << sname << " | " << deviceId << " | " << homeId;
+        Log::write("User", "New user: %s %s, homeId: %ld, phoneId: %ld", name.c_str(), sname.c_str(), homeId, deviceId);
     } else {
-        cout << "Error creating new user";
+        Log::write("User", "Error creating new user");
     }
 
 
@@ -63,4 +64,20 @@ string User::getLineLabel(string &line) {
 string User::getLineValue(string &line) {
     size_t semiPos= line.find_first_of(':');
     return line.substr(semiPos+2);
+}
+
+int User::getId() {
+    return id;
+}
+
+string User::getName() {
+    return name;
+}
+
+long User::getDeviceId() {
+    return deviceId;
+}
+
+long User::getHomeId() {
+    return homeId;
 }

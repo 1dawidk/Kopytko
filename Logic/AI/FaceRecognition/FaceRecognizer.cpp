@@ -1,3 +1,4 @@
+#include <Debug/Log.h>
 #include "FaceRecognizer.h"
 
 
@@ -72,7 +73,7 @@ void FaceRecognizer::onRun() {
             int idx= FaceModel::findSimilar(faceModels, face_descriptors[i]);
 
             if(idx!=FACEMODEL_FACE_NONE) {
-                cout << "Face id: " << faceModels[idx]->getFaceId() << endl;
+                Log::write("FaceRecognizer", "Face id: %d", faceModels[idx]->getFaceId());
                 ui->faceDetectedCallback(faceModels[idx]->getFaceId());
             }else {
                 ui->faceDetectedCallback(FACE_UNKNOWN);

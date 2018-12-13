@@ -45,6 +45,7 @@ public:
 
     void onShowImage();
     void onLabelChange();
+    void onSessionAction();
 
     void showImageCallback(cv::Mat img);
     void faceDetectedCallback(int userId);
@@ -89,11 +90,9 @@ private:
     string label;
     string lastLabel;
 
-    //Sessins
-    vector<Session*> sessions;
-    int runningSession;
-
-
+    //Session
+    Glib::Dispatcher sessionDispatcher;
+    Session* session;
 
     //Statics
     static int winW;

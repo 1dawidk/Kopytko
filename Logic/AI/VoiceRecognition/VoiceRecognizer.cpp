@@ -1,4 +1,5 @@
 #include <Logic/Misc/Clock.h>
+#include <Debug/Log.h>
 #include <highgui.h>
 #include "VoiceRecognizer.h"
 
@@ -17,11 +18,11 @@ void VoiceRecognizer::onRun() {
 }
 
 void VoiceRecognizer::onStop() {
-    cout << "\t\tStop: Spectrum Getherer" << endl;
+    Log::write("VoiceRecognizer", "Stop: Spectrum Gatherer");
     spectrumGatherer->stop();
-    cout << "\t\tStop: Sound Recorder"  << endl;
+    Log::write("VoiceRecognizer", "Stop: Sound Recorder");
     soundRecorder->stop();
-    cout << "\t\tClean: Voice Recognizer memory" << endl;
+    Log::write("VoiceRecognizer", "Clear memory");
 
     delete spectrumGatherer;
     delete soundRecorder;
