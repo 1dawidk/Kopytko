@@ -1,23 +1,23 @@
-#include <Logic/Misc/Clock.h>
-#include <Debug/Log.h>
-#include <highgui.h>
-#include "VoiceRecognizer.h"
+#include <dkulpaclibs/misc/debug/Log.h>
+#include "TriggerWordDetector.h"
 
-void VoiceRecognizer::onStart() {
-    soundRecorder= new SoundRecorder(8000, 1);
-    spectrumGatherer= new SpectrumGatherer(soundRecorder);
-
-    soundRecorder->start();
-    spectrumGatherer->start();
-
-    specBuff= new double[spectrumGatherer->getSpectrumBufferSize()];
+TriggerWordDetector::TriggerWordDetector(SoundRecorder *soundRecorder) {
+    this->soundRecorder= soundRecorder;
 }
 
-void VoiceRecognizer::onRun() {
+void TriggerWordDetector::onStart() {
+    spectrumGatherer= new SpectrumGatherer(soundRecorder);
+    spectrumGatherer->start();
+    specBuff= new double[spectrumGatherer->getSpectrumBufferSize()];
+
+    found= false;
+}
+
+void TriggerWordDetector::onRun() {
     //spectrumGatherer->getSpectrum(specBuff);
 }
 
-void VoiceRecognizer::onStop() {
+void TriggerWordDetector::onStop() {
     Log::write("VoiceRecognizer", "Stop: Spectrum Gatherer");
     spectrumGatherer->stop();
     Log::write("VoiceRecognizer", "Stop: Sound Recorder");
@@ -28,5 +28,3 @@ void VoiceRecognizer::onStop() {
     delete soundRecorder;
     delete[] specBuff;
 }
-
-

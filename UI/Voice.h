@@ -1,7 +1,8 @@
 #ifndef KOPYTKO_VOICE_H
 #define KOPYTKO_VOICE_H
 
-#include <Logic/Misc/Thread.h>
+#include <dkulpaclibs/misc/debug/Log.h>
+#include <dkulpaclibs/misc/Thread.h>
 #include <SDL2/SDL_mixer.h>
 #include <string>
 #include <vector>

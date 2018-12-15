@@ -1,5 +1,5 @@
 #include <DataProcessing/DataProcessor.h>
-#include <Debug/Log.h>
+#include <dkulpaclibs/misc/debug/Log.h>
 #include "User.h"
 
 string User::idToLabel[LINE_LABELS_NO]={

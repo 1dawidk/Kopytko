@@ -8,7 +8,7 @@
 #include <UI/Views/ICMWeatherView.h>
 #include <UI/Voice.h>
 
-#include <Logic/HWDrivers/SoundRecorder.h>
+#include <dkulpaclibs/hw/SoundRecorder.h>
 
 //Gtk
 #include <gtkmm/window.h>
@@ -24,7 +24,11 @@
 #include <opencv2/core/core.hpp>
 #include <cv.h>
 #include <Session.h>
-#include <Logic/AI/VoiceRecognition/VoiceRecognizer.h>
+#include <Logic/AI/SpeechRecognition/SpeechListener.h>
+
+//Peripherals
+#include <Logic/Peripherals/HomeConnectionManager.h>
+#include <Logic/Peripherals/PhoneConnectionManager.h>
 
 #define UI_VERTICAL    0
 #define UI_HORIZONTAL  1
@@ -57,6 +61,7 @@ public:
     static int prcToPix(int prc, int dir);
 
 private:
+    void prepareViews();
     bool onKeyPress(GdkEventKey* event);
 
 
@@ -93,6 +98,10 @@ private:
     //Session
     Glib::Dispatcher sessionDispatcher;
     Session* session;
+
+    //Periperals
+    HomeConnectionManager *hcm;
+    PhoneConnectionManager *pcm;
 
     //Statics
     static int winW;

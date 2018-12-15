@@ -40,11 +40,13 @@ pkg_check_modules(GTKMM gtkmm-2.4)
 
 find_library(bluetooth_lib bluetooth REQUIRED)
 
+find_package(dkulpaclibs REQUIRED)
+
 include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
-add_executable(Kopytko main.cpp UI/Views/ClockView.cpp UI/Views/ClockView.h UI/Views/Header.cpp UI/Views/Header.h Logic/Misc/Clock.cpp Logic/Misc/Clock.h Logic/Misc/Thread.cpp Logic/Misc/Thread.h Logic/HWDrivers/Camera.cpp Logic/HWDrivers/Camera.h Logic/AI/FaceRecognition/FaceRecognizer.cpp Logic/AI/FaceRecognition/FaceRecognizer.h UI/Views/DebugView.cpp UI/Views/DebugView.h Logic/AI/FaceRecognition/FaceModel.cpp Logic/AI/FaceRecognition/FaceModel.h UI/UI.cpp UI/UI.h UI/Views/HeartbeatView.cpp UI/Views/HeartbeatView.h UI/Views/ICMWeatherView.cpp UI/Views/ICMWeatherView.h Logic/AI/VoiceRecognition/VoiceRecognizer.cpp Logic/AI/VoiceRecognition/VoiceRecognizer.h Logic/HWDrivers/BluetoothManager.h Logic/HWDrivers/BluetoothManager.cpp Logic/HWDrivers/BtRFCOMMServer.h Logic/HWDrivers/BtRFCOMMServer.cpp DataProcessing/DataProcessor.cpp DataProcessing/DataProcessor.h Logic/AI/FaceRecognition/FaceNetTemplate.h Session.cpp Session.h Logic/AI/FaceRecognition/FaceFinder.cpp Logic/AI/FaceRecognition/FaceFinder.h UI/Voice.cpp UI/Voice.h Logic/HWDrivers/SoundRecorder.cpp Logic/HWDrivers/SoundRecorder.h Logic/AI/VoiceRecognition/SpectrumGatherer.cpp Logic/AI/VoiceRecognition/SpectrumGatherer.h UI/User.cpp UI/User.h Debug/Log.cpp Debug/Log.h)
-target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib ${OpenCV_LIBS} ${CURL_LIBRARIES} ${bluetooth_lib} ${SDL2_LIBRARIES} ${ALSA_LIBRARIES} SDL2_mixer fftw3f)
+add_executable(Kopytko main.cpp UI/Views/ClockView.cpp UI/Views/ClockView.h UI/Views/Header.cpp UI/Views/Header.h Logic/AI/FaceRecognition/FaceRecognizer.cpp Logic/AI/FaceRecognition/FaceRecognizer.h UI/Views/DebugView.cpp UI/Views/DebugView.h Logic/AI/FaceRecognition/FaceModel.cpp Logic/AI/FaceRecognition/FaceModel.h UI/UI.cpp UI/UI.h UI/Views/HeartbeatView.cpp UI/Views/HeartbeatView.h UI/Views/ICMWeatherView.cpp UI/Views/ICMWeatherView.h Logic/AI/SpeechRecognition/SpeechListener.cpp Logic/AI/SpeechRecognition/SpeechListener.h DataProcessing/DataProcessor.cpp DataProcessing/DataProcessor.h Logic/AI/FaceRecognition/FaceNetTemplate.h Session.cpp Session.h Logic/AI/FaceRecognition/FaceFinder.cpp Logic/AI/FaceRecognition/FaceFinder.h UI/Voice.cpp UI/Voice.h Logic/AI/SpeechRecognition/SpectrumGatherer.cpp Logic/AI/SpeechRecognition/SpectrumGatherer.h UI/User.cpp UI/User.h Logic/AI/SpeechRecognition/TriggerWordDetector.cpp Logic/AI/SpeechRecognition/TriggerWordDetector.h Logic/Peripherals/PhoneConnectionManager.cpp Logic/Peripherals/PhoneConnectionManager.h Logic/Peripherals/HomeConnectionManager.cpp Logic/Peripherals/HomeConnectionManager.h)
+target_link_libraries(Kopytko ${CMAKE_THREAD_LIBS_INIT} ${GTKMM_LIBRARIES} dlib::dlib ${OpenCV_LIBS} ${CURL_LIBRARIES} ${bluetooth_lib} ${SDL2_LIBRARIES} ${ALSA_LIBRARIES} SDL2_mixer fftw3f ${dkulpaclibs_misc_LIB} ${dkulpaclibs_hw_LIB})
 
 if(${BOARD_TYPE} MATCHES RASPBERRY_PI)
     target_link_libraries(Kopytko ${bluetooth_lib})

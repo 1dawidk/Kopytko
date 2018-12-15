@@ -1,11 +1,10 @@
 #include <iostream>
-#include "Logic/HWDrivers/Camera.h"
+#include <dkulpaclibs/hw/Camera.h>
 #include "Logic/AI/FaceRecognition/FaceRecognizer.h"
 #include <gtkmm/main.h>
 #include "curl/curl.h"
 #include <SDL/SDL.h>
-#include <Debug/Log.h>
-
+#include <dkulpaclibs/misc/debug/Log.h>
 
 int main(int argc, char *argv[]) {
     Glib::thread_init();

@@ -1,7 +1,7 @@
 #ifndef KOPYTKO_SESSION_H
 #define KOPYTKO_SESSION_H
 
-#include <Logic/Misc/Thread.h>
+#include <dkulpaclibs/misc/Thread.h>
 #include <DataProcessing/DataProcessor.h>
 #include <UI/User.h>
 #include <string>

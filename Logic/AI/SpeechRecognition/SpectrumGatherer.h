@@ -2,9 +2,9 @@
 #define KOPYTKO_SPECTRUMGATHERER_H
 
 
-#include <Logic/Misc/Thread.h>
-#include <Logic/HWDrivers/SoundRecorder.h>
-#include <Logic/Misc/Clock.h>
+#include <dkulpaclibs/misc/Thread.h>
+#include <dkulpaclibs/hw/SoundRecorder.h>
+#include <dkulpaclibs/misc/Clock.h>
 #include <fftw3.h>
 #include <math.h>
 #include <opencv2/core/core.hpp>

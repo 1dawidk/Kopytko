@@ -1,5 +1,5 @@
 #include <highgui.h>
-#include <Debug/Log.h>
+#include <dkulpaclibs/misc/debug/Log.h>
 #include "ICMWeatherView.h"
 #include "UI/UI.h"
 

@@ -4,8 +4,8 @@
 
 #include <stdlib.h>
 #include <gtkmm/label.h>
-#include "Logic/Misc/Thread.h"
-#include "Logic/Misc/Clock.h"
+#include <dkulpaclibs/misc/Thread.h>
+#include <dkulpaclibs/misc/Clock.h>
 #include <string>
 
 using namespace std;

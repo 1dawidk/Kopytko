@@ -1,4 +1,3 @@
-#include <Debug/Log.h>
 #include "Voice.h"
 
 /************** PUBLICS ****************/

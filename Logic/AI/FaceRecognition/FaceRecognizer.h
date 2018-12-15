@@ -1,9 +1,9 @@
 #ifndef KOPYTKO_FACERECOGNIZER_H
 #define KOPYTKO_FACERECOGNIZER_H
 
-
-#include "Logic/Misc/Thread.h"
-#include "Logic/HWDrivers/Camera.h"
+#include <dkulpaclibs/misc/Thread.h>
+#include <dkulpaclibs/misc/debug/Log.h>
+#include <dkulpaclibs/hw/Camera.h>
 
 #include <vector>
 

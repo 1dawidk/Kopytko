@@ -1,8 +1,8 @@
 #ifndef KOPYTKO_FACEFINDER_H
 #define KOPYTKO_FACEFINDER_H
 
-#include <Logic/Misc/Thread.h>
-#include <Logic/HWDrivers/Camera.h>
+#include <dkulpaclibs/misc/Thread.h>
+#include <dkulpaclibs/hw/Camera.h>
 
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/opencv.h>
