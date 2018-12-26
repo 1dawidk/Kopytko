@@ -50,7 +50,7 @@ void UI::init() {
 
 
 void UI::onShowImage() {
-    //imageView->set(pixbuf);
+    imageView->set(pixbuf);
 }
 
 void UI::onLabelChange() {
@@ -122,6 +122,8 @@ void UI::faceDetectedCallback(int userId){
         }
     //If no face found
     } else {
+        if(session!=NULL)
+            this->log("Session is up for "+to_string(session->getUpTime())+"s");
         //Check if there is session and if it should be closed
         if(session!=NULL && session->getUpTime()>SESSION_IDLE_MAX_DURATION_S) {
             session->stop();
@@ -231,6 +233,8 @@ void UI::prepareViews() {
 
 UI::~UI() {
     //icmWeatherView->stop();
+    Log::write("UI", "Stop: Phone Connection Manager");
+    pcm->stop();
     Log::write("UI", "Stop: Voice Recognizer");
     voiceRecognizer->stop();
     Log::write("UI", "Stop: Face Recognizer");

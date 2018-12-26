@@ -6,7 +6,7 @@
 #include <UI/User.h>
 #include <string>
 
-#define SESSION_IDLE_MAX_DURATION_S 0
+#define SESSION_IDLE_MAX_DURATION_S 100
 
 using namespace std;
 

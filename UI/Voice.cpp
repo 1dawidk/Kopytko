@@ -100,6 +100,8 @@ void Voice::onRun() {
         pthread_mutex_lock(&queueM);
         queue.erase(queue.begin());
         pthread_mutex_unlock(&queueM);
+    } else {
+        Thread::pause(200);
     }
 }
 

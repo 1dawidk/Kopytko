@@ -61,7 +61,6 @@ void FaceRecognizer::onRun() {
         // In this 128D vector space, images from the same person will be close to each other
         // but vectors from different people will be far apart.  So we can use these vectors to
         // identify if a pair of images are from the same person or from different people.
-        ui->log("Found "+std::to_string(faceImgs.size())+" faces");
 
         //if needed kill thread
         if(!runThread)
