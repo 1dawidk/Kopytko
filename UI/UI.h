@@ -29,6 +29,7 @@
 //Peripherals
 #include <Logic/Peripherals/HomeConnectionManager.h>
 #include <Logic/Peripherals/PhoneConnectionManager.h>
+#include <UI/Views/NotificationListView.h>
 
 #define UI_VERTICAL    0
 #define UI_HORIZONTAL  1
@@ -81,6 +82,9 @@ private:
     ICMWeatherView *icmWeatherView;
     Gtk::Image *imageView;
     Gtk::Label nameLabel;
+
+    vector<Notification*> notifs;
+    NotificationListView *notiListView;
 
     //GUI Thread
     Glib::Dispatcher imgShowDispatcher;

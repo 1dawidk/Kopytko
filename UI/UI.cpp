@@ -176,7 +176,7 @@ void UI::prepareViews() {
     winW= screen->get_width();
     winH= screen->get_height();
 
-    //Create views and boxes
+    //Create boxes
     mainBox= Gtk::manage(new Gtk::VBox());
     headerBox= Gtk::manage(new Gtk::HBox());
     midBox= Gtk::manage(new Gtk::HBox());
@@ -185,12 +185,14 @@ void UI::prepareViews() {
     rightMidBox= Gtk::manage(new Gtk::VBox());
     bottomBox= Gtk::manage(new Gtk::HBox());
 
+    //Create views
     clockView= Gtk::manage(new ClockView());
     clockView->resize(58);
     imageView= Gtk::manage(new Gtk::Image());
     icmWeatherView= Gtk::manage(new ICMWeatherView());
     icmWeatherView->setCity("Warszawa");
     heartbeatView= Gtk::manage(new HeartbeatView());
+    notiListView= Gtk::manage(new NotificationListView(&notifs));
 
     //Prepare views and boxes
     midBox->pack_start(*notiBox, Gtk::PACK_EXPAND_WIDGET);
@@ -205,7 +207,7 @@ void UI::prepareViews() {
     midMidBox->pack_start(nameLabel, Gtk::PACK_SHRINK);
     //midMidBox->pack_start(*imageView);
     midMidBox->pack_start(*icmWeatherView);
-
+    notiBox->pack_start(*notiListView);
 
     //Show boxes all children
     headerBox->show_all_children(true);
@@ -229,9 +231,23 @@ void UI::prepareViews() {
     Gdk::Color bg_color("black");
     this->modify_bg(Gtk::STATE_NORMAL, bg_color);
     this->fullscreen();
+
+
+
+    //Test notifications
+    notifs.push_back(PhoneNotification::newInstance("app=Messenger&text=Hello David, have you received me message?&title=New message&"));
+    notifs.push_back(PhoneNotification::newInstance("app=Smashing Four&title=Start orb unlock&text=Have you forgotten to start unlocking Orb?&"));
+    notifs.push_back(PhoneNotification::newInstance("app=Red Bull&title=Hello there&text=Drink next Red Bull :)&"));
+    notiListView->notifyChange();
 }
 
 UI::~UI() {
+    //Delete local objects
+    for(int i=0; i<notifs.size(); i++){
+        delete notifs[i];
+    }
+
+
     //icmWeatherView->stop();
     Log::write("UI", "Stop: Phone Connection Manager");
     pcm->stop();
